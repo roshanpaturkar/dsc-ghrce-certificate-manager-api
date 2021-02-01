@@ -5,6 +5,7 @@ const sharp = require('sharp')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
+const { response, request } = require('express')
 
 const router = new express.Router()
 
@@ -121,6 +122,20 @@ router.delete('/users/me/avatar', auth, async (request, response) => {
         response.send()
     } catch (error) {
         response.status(500).send()
+    }
+})
+
+router.get('/users/:id/avatar', auth, async (request, response) => {
+    try {
+        const user = await User.findById(request.params.id)
+
+        if (!user || !user.avatar) {
+            throw new Error()
+        }
+        response.set('Content-Type', 'image/png')
+        response.send(user.avatar)
+    } catch (error) {
+        response.status(404).send()
     }
 })
 
