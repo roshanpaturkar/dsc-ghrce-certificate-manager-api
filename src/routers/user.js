@@ -1,4 +1,6 @@
 const express = require('express')
+const multer = require('multer')
+const sharp = require('sharp')
 
 const User = require('../models/user')
 const auth = require('../middleware/auth')
@@ -84,6 +86,27 @@ router.delete('/users/me', unavailable, auth, async (request, response) => {
     } catch (error) {
         response.status(500).send()   
     }
+})
+
+const upload = multer ({
+        limits: {
+            fileSize: 1000000
+        },
+        fileFilter (request, file, callback) {
+            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+                return callback(new Error ('Please upload an image'))
+            }
+            callback(undefined, true)
+        }
+    })
+
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (request, response) => {
+    const buffer = await sharp(request.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    request.user.avatar = buffer
+    await request.user.save()
+    response.send()
+}, (error, request, response, next) => {
+    response.status(400).send({ error: error.message })
 })
 
 module.exports = router
