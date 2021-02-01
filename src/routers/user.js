@@ -102,8 +102,12 @@ const upload = multer ({
     })
 
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (request, response) => {
-    const buffer = await sharp(request.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-    request.user.avatar = buffer
+    try {
+        const buffer = await sharp(request.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+        request.user.avatar = buffer
+    } catch (error) {
+        response.status(400).send({ error: 'Image data not found!'})
+    }
     await request.user.save()
     response.send()
 }, (error, request, response, next) => {
