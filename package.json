@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api/issues"
   },
-  "homepage": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api#readme"
+  "homepage": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
