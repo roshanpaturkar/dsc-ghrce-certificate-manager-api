@@ -1,0 +1,19 @@
+{
+  "name": "dsc-ghrce-certificate-manager",
+  "version": "1.0.0",
+  "description": "DSC GHRCE Certificate Manager API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api.git"
+  },
+  "author": "Roshan Paturkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api/issues"
+  },
+  "homepage": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api#readme"
+}
