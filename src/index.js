@@ -11,3 +11,6 @@ app.get('/', (request, response) => {
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
 })
+
+const validator = require('validator')
+console.log(validator.isMobilePhone("9890401440", ["en-IN"]));
