@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/roshanpaturkar/dsc-ghrce-certificate-manager-api#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.14"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
