@@ -54,4 +54,26 @@ router.get('/users/me', auth, async (request, response) => {
     response.send(request.user)
 })
 
+router.patch('/users/me', auth, async (request, response) => {
+    const updates = Object.keys(request.body)
+    const allowedUpdates = ['name', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return response.status(400).send({
+            error: 'Invalid updates! You can only change name and password!',
+            message: 'If you want to change email or mobile number, please contact admin.'
+        })
+    }
+
+    try {
+        updates.forEach((update) => request.user[update] = request.body[update])
+        await request.user.save()
+
+        response.send(request.user)
+    } catch (error) {
+        response.status(400).send(error)
+    }
+})
+
 module.exports = router
