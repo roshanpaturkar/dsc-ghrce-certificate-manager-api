@@ -109,4 +109,19 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (request, r
     response.status(400).send({ error: error.message })
 })
 
+router.delete('/users/me/avatar', auth, async (request, response) => {
+    try {
+
+        if (!request.user.avatar) {
+            response.status(404).send()
+        }
+
+        request.user.avatar = undefined
+        await request.user.save()
+        response.send()
+    } catch (error) {
+        response.status(500).send()
+    }
+})
+
 module.exports = router
