@@ -77,4 +77,13 @@ router.patch('/users/me', auth, async (request, response) => {
     }
 })
 
+router.delete('/users/me', unavailable, auth, async (request, response) => {
+    try {
+        await request.user.remove()
+        response.send(request.user)
+    } catch (error) {
+        response.status(500).send()   
+    }
+})
+
 module.exports = router
