@@ -75,6 +75,6 @@ const poolSchema = mongoose.Schema({
     }]
 })
 
-const Pool = mongoose.model('User', poolSchema)
+const Pool = mongoose.model('Pool', poolSchema)
 
 module.exports = Pool
