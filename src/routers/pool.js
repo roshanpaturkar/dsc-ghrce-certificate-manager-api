@@ -17,11 +17,20 @@ const upload = multer({
     })
 
 router.post('/publishCertificates', auth, upload.single('certificatesData'), async (request, response) => {
+    const userData = {
+        userID: request.user._id,
+        name: request.user.name,
+        email: request.user.email
+    }
+
     try {
         const rawData = await csv().fromString(request.file.buffer.toString())
-        response.send(rawData)
+        const poolData = Pool.getPoolData(rawData, userData)
+        const pool = new Pool(poolData)
+        await pool.save()
+        response.send(pool)
     } catch (error) {
-        response.status(400).send({ error: 'Certificates data not found!'})
+        response.status(400).send({ error: error})
     }
 })
 
