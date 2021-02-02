@@ -30,8 +30,6 @@ router.post('/publishCertificates', auth, upload.single('certificatesData'), asy
         const poolData = Pool.getPoolData(rawData, userData)
         const pool = new Pool(poolData)
         await pool.save()
-        const event = 
-        console.log();
         response.send(pool)
     } catch (error) {
         response.status(400).send({ error: error})
