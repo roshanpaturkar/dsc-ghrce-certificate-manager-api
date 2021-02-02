@@ -91,6 +91,25 @@ const poolSchema = mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    verifiedBy: {
+        userID: {
+            type: mongoose.Schema.Types.ObjectId,
+        },
+        name: {
+            type: String,
+            trim: true
+        },
+        email: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            validate (value) {
+                if (!validator.isEmail(value)) {
+                    throw new Error('Invalid email!')
+                }
+            }
+        }
     }
 })
 
@@ -100,7 +119,7 @@ poolSchema.statics.getPoolData = (rawData, userData) => {
         eventID: eventId,
         eventName: rawData[0].eventName,
         description: rawData[0].description,
-        speakerName: rawData[0].speakerName,
+        speakerName: rawData[0].speakerName === ""? 'NA': rawData[0].speakerName,
         eventDate: rawData[0].eventDate,
         certificateContent: rawData[0].certificateContent,
         publishedBy: userData
@@ -109,13 +128,12 @@ poolSchema.statics.getPoolData = (rawData, userData) => {
     rawData.forEach((value) => {
         certificates.push({
             eventID: eventId,
-            certificateID: value.certificateId === ""? cryptoRandomString({length: 25}): value.certificateId,
+            certificateID: value.certificateId === ""? cryptoRandomString({length: 20}): value.certificateId,
             name: `${value.firstName} ${value.lastName}`,
             email: value.email
         })
     })
 
-    eventData.publishedBy = userData
     eventData.certificates = certificates
 
     return eventData

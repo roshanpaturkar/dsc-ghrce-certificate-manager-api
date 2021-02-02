@@ -3,6 +3,8 @@ const multer = require('multer')
 const csv = require('csvtojson')
 
 const Pool = require('../models/pool')
+const Event = require('../models/event')
+const Certificates = require('../models/certificates')
 const auth = require('../middleware/auth')
 
 const router = new express.Router()
@@ -28,9 +30,39 @@ router.post('/publishCertificates', auth, upload.single('certificatesData'), asy
         const poolData = Pool.getPoolData(rawData, userData)
         const pool = new Pool(poolData)
         await pool.save()
+        const event = 
+        console.log();
         response.send(pool)
     } catch (error) {
         response.status(400).send({ error: error})
+    }
+})
+
+router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
+    const verifiedBy = {
+        userID: request.user._id,
+        name: request.user.name,
+        email: request.user.email
+    }
+
+    try {
+        var pool = await Pool.findOne({eventID: request.params.eventID})
+
+        if (!pool) {
+            throw new Error()
+        }
+        
+        pool.verified = true
+        pool.verifiedBy = verifiedBy
+        await pool.save()
+        const {eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, certificates} = pool
+        const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, verifiedBy }
+        const event = new Event(eventData)
+        await event.save()
+        await Certificates.insertMany(certificates)
+        response.send(pool)
+    } catch (error) {
+        response.status(404).send(error)
     }
 })
 
