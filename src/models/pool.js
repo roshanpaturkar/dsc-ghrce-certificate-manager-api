@@ -3,6 +3,12 @@ const validator = require('validator')
 const cryptoRandomString = require('crypto-random-string')
 
 const poolSchema = mongoose.Schema({
+    eventID: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true
+    },
     eventName: {
         type: String,
         required: true,
@@ -51,11 +57,17 @@ const poolSchema = mongoose.Schema({
         }
     },
     certificates: [{
+        eventID: {
+            type: String,
+            unique: true,
+            required: true,
+            trim: true
+        },
         certificateID: {
             type: String,
             unique: true,
-            requires: true,
-            trim: true,
+            required: true,
+            trim: true
         },
          name: {
             type: String,
@@ -74,11 +86,18 @@ const poolSchema = mongoose.Schema({
                 }
             }
         }
-    }]
+    }],
+    verified: {
+        type: Boolean,
+        default: false,
+        required: true
+    }
 })
 
 poolSchema.statics.getPoolData = (rawData, userData) => {
+    const eventId = rawData[0].eventId === ""? cryptoRandomString({length: 30}) : rawData[0].eventId
     const eventData = {
+        eventID: eventId,
         eventName: rawData[0].eventName,
         description: rawData[0].description,
         speakerName: rawData[0].speakerName,
@@ -89,7 +108,8 @@ poolSchema.statics.getPoolData = (rawData, userData) => {
     const certificates = []
     rawData.forEach((value) => {
         certificates.push({
-            certificateID: value.certificateId === ""? cryptoRandomString({length: 15}): value.certificateId,
+            eventID: eventId,
+            certificateID: value.certificateId === ""? cryptoRandomString({length: 25}): value.certificateId,
             name: `${value.firstName} ${value.lastName}`,
             email: value.email
         })
