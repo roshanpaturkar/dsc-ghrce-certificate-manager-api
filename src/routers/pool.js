@@ -47,7 +47,7 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         var pool = await Pool.findOne({eventID: request.params.eventID})
 
         if (!pool) {
-            throw new Error()
+            return response.status(404).send({ error: 'Invalid Event ID!'})
         }
 
         if (pool.verified === true) {
