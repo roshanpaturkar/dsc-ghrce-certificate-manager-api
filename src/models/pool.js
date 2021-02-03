@@ -11,6 +11,7 @@ const poolSchema = mongoose.Schema({
     },
     eventName: {
         type: String,
+        unique: true,
         required: true,
         trim: true
     },
@@ -27,7 +28,12 @@ const poolSchema = mongoose.Schema({
     eventDate: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        validate (value) {
+            if (!value.match(/^(\d{2})-(\d{2})-(\d{4})$/)) {
+                throw new Error('Invalid Date!')
+            }
+        }
     },
     certificateContent: {
         type: String,
@@ -76,7 +82,6 @@ const poolSchema = mongoose.Schema({
         },
         email: {
             type: String,
-            unique: true,
             required: true,
             trim: true,
             lowercase: true,
