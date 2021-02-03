@@ -49,6 +49,10 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         if (!pool) {
             throw new Error()
         }
+
+        if (pool.verified === true) {
+            response.status(208).send({error: 'This data is already verified by ' + pool.verifiedBy.name})
+        }
         
         pool.verified = true
         pool.verifiedBy = verifiedBy
