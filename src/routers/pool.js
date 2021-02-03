@@ -7,6 +7,7 @@ const RejectPool = require('../models/rejectPool')
 const Event = require('../models/event')
 const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
+const { request, response } = require('express')
 
 const router = new express.Router()
 
@@ -133,6 +134,18 @@ router.delete('/rollback/:eventID', auth, async (request, response) => {
         await Certificates.deleteMany({ eventID: request.params.eventID })
 
         response.send()
+    } catch (error) {
+        response.status(500).send()
+    }
+})
+
+router.get('/pool', auth, async (request, response) => {
+    try {
+        const pools = await Pool.find()
+        if (!pools) {
+            return response.status(404).send({ error: 'Data not found!' })
+        }
+        response.send(pools)
     } catch (error) {
         response.status(500).send()
     }
