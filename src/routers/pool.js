@@ -140,8 +140,17 @@ router.delete('/rollback/:eventID', auth, async (request, response) => {
 })
 
 router.get('/pool', auth, async (request, response) => {
+    let pools = []
+
     try {
-        const pools = await Pool.find()
+        if (request.query.verified === 'true') {
+            pools = await Pool.find({ verified: true })
+        } else if (request.query.verified === 'false') {
+            pools = await Pool.find({ verified: false })
+        } else {
+            pools = await Pool.find()
+        }
+
         if (!pools) {
             return response.status(404).send({ error: 'Data not found!' })
         }
