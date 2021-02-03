@@ -5,6 +5,7 @@ require('./db/mongoose')
 const userRouter = require('./routers/user')
 const poolRouter = require('./routers/pool')
 const certificatesRouter = require('./routers/certificate')
+const rejectPoolRouter = require('./routers/rejectPool')
 
 const app = express()
 const port = process.env.PORT
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(poolRouter)
 app.use(certificatesRouter)
+app.use(rejectPoolRouter)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);

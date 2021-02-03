@@ -154,6 +154,25 @@ const rejectPoolSchema = mongoose.Schema({
                 }
             }
         }
+    },
+    rejectRollbackBy: {
+        userID: {
+            type: mongoose.Schema.Types.ObjectId,
+        },
+        name: {
+            type: String,
+            trim: true
+        },
+        email: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            validate (value) {
+                if (!validator.isEmail(value)) {
+                    throw new Error('Invalid email!')
+                }
+            }
+        }
     }
 })
 
