@@ -56,6 +56,7 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         
         pool.verified = true
         pool.verifiedBy = verifiedBy
+        pool.rollbackBy = undefined
         
         const {eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, certificates} = pool
         const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, verifiedBy }
