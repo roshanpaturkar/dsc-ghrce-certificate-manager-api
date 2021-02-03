@@ -47,11 +47,11 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         var pool = await Pool.findOne({eventID: request.params.eventID})
 
         if (!pool) {
-            return response.status(404).send({ error: 'Invalid Event ID!'})
+            return response.status(404).send({ error: 'Invalid Event ID!' })
         }
 
         if (pool.verified === true) {
-            return response.status(208).send({error: 'This data is already verified by ' + pool.verifiedBy.name})
+            return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
         }
         
         pool.verified = true
@@ -82,11 +82,11 @@ router.delete('/rollback/:eventID', auth, async (request, response) => {
         const pool = await Pool.findOne({ eventID: request.params.eventID })
 
         if (!pool) {
-            return response.status(404).send({ error: 'Invalid Event ID!'})
+            return response.status(404).send({ error: 'Invalid Event ID!' })
         }
 
         if (pool.verified === false) {
-            return response.status(400).send({ error: 'Data is either not verified or already rollback!'})
+            return response.status(400).send({ error: 'Data is either not verified or already rollback!' })
         }
         
         pool.verified = false
