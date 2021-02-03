@@ -32,4 +32,18 @@ router.delete('/rollback/rejectPool/:eventID', auth, async (request, response) =
     }
 })
 
+router.get('/rejectPool', auth, async (request, response) => {
+    try {
+        
+        const rejectPool = await RejectPool.find()
+
+        if (!rejectPool) {
+            return response.status(404).send({ error: 'Data not found!' })
+        }
+        response.send(rejectPool)
+    } catch (error) {
+        response.status(500).send()
+    }
+})
+
 module.exports = router
