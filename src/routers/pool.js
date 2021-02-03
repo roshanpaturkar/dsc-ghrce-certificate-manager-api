@@ -6,6 +6,8 @@ const Pool = require('../models/pool')
 const Event = require('../models/event')
 const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
+const { async } = require('crypto-random-string')
+const { request, response } = require('express')
 
 const router = new express.Router()
 
