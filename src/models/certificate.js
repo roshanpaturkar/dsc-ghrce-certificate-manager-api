@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-const certificatesSchema = mongoose.Schema({
+const certificateSchema = mongoose.Schema({
     eventID: {
         type: String,
         required: true,
@@ -31,5 +31,5 @@ const certificatesSchema = mongoose.Schema({
    }
 })
 
-const Certificates = mongoose.model('Certificates', certificatesSchema)
-module.exports = Certificates
+const Certificate = mongoose.model('Certificates', certificateSchema)
+module.exports = Certificate

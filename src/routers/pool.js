@@ -4,7 +4,7 @@ const csv = require('csvtojson')
 
 const Pool = require('../models/pool')
 const Event = require('../models/event')
-const Certificates = require('../models/certificates')
+const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
 
 const router = new express.Router()
@@ -56,15 +56,18 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         
         pool.verified = true
         pool.verifiedBy = verifiedBy
-        await pool.save()
+        
         const {eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, certificates} = pool
         const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, verifiedBy }
         const event = new Event(eventData)
+        
         await event.save()
         await Certificates.insertMany(certificates)
-        response.send(pool)
+        await pool.save()
+        
+        response.status(201).send()
     } catch (error) {
-        response.status(404).send(error)
+        response.status(400).send(error)
     }
 })
 

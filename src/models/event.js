@@ -81,5 +81,15 @@ const eventSchema = mongoose.Schema({
     }
 })
 
+eventSchema.methods.toJSON = function() {
+    const event = this
+    const eventObject = event.toObject()
+
+    delete eventObject.publishedBy
+    delete eventObject.verifiedBy
+
+    return eventObject
+}
+
 const Event = mongoose.model('Event', eventSchema)
 module.exports = Event
