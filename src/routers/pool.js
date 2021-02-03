@@ -3,6 +3,7 @@ const multer = require('multer')
 const csv = require('csvtojson')
 
 const Pool = require('../models/pool')
+const RejectPool = require('../models/rejectPool')
 const Event = require('../models/event')
 const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
@@ -50,6 +51,10 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
             return response.status(404).send({ error: 'Invalid Event ID!' })
         }
 
+        if (pool.rejected === true) {
+            return response.status(406).send({ error: 'Can not verify! This data is rejected by ' + pool.rejectedBy.name })
+        }
+
         if (pool.verified === true) {
             return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
         }
@@ -67,6 +72,36 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
         await pool.save()
         
         response.status(201).send()
+    } catch (error) {
+        response.status(400).send(error)
+    }
+})
+
+router.post('/rejectCertificates/:eventID', auth, async (request, response) => {
+    const rejectedBy = {
+        userID: request.user._id,
+        name: request.user.name,
+        email: request.user.email
+    }
+
+    try {
+        const pool = await Pool.findOne({ eventID: request.params.eventID })
+
+        if (!pool) {
+            return response.status(404).send({ error: 'Invalid Event ID!' })
+        }
+
+        if (pool.verified === true) {
+            return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
+        }
+
+        pool.rejected = true
+        pool.rejectedBy = rejectedBy
+
+        await RejectPool.insertMany(pool)
+        await pool.remove()
+
+        response.send()
     } catch (error) {
         response.status(400).send(error)
     }

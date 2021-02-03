@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
-const cryptoRandomString = require('crypto-random-string')
 
-const poolSchema = mongoose.Schema({
+const rejectPoolSchema = mongoose.Schema({
     eventID: {
         type: String,
         unique: true,
@@ -11,7 +10,6 @@ const poolSchema = mongoose.Schema({
     },
     eventName: {
         type: String,
-        unique: true,
         required: true,
         trim: true
     },
@@ -65,13 +63,11 @@ const poolSchema = mongoose.Schema({
     certificates: [{
         eventID: {
             type: String,
-            unique: true,
             required: true,
             trim: true
         },
         certificateID: {
             type: String,
-            unique: true,
             required: true,
             trim: true
         },
@@ -161,32 +157,6 @@ const poolSchema = mongoose.Schema({
     }
 })
 
-poolSchema.statics.getPoolData = (rawData, userData) => {
-    const eventId = rawData[0].eventId === ""? cryptoRandomString({length: 30}) : rawData[0].eventId
-    const eventData = {
-        eventID: eventId,
-        eventName: rawData[0].eventName,
-        description: rawData[0].description,
-        speakerName: rawData[0].speakerName === ""? 'NA': rawData[0].speakerName,
-        eventDate: rawData[0].eventDate,
-        certificateContent: rawData[0].certificateContent,
-        publishedBy: userData
-    }
-    const certificates = []
-    rawData.forEach((value) => {
-        certificates.push({
-            eventID: eventId,
-            certificateID: value.certificateId === ""? cryptoRandomString({length: 20}): value.certificateId,
-            name: `${value.firstName} ${value.lastName}`,
-            email: value.email
-        })
-    })
+const RejectPool = mongoose.model('RejectPool', rejectPoolSchema)
 
-    eventData.certificates = certificates
-
-    return eventData
-}
-
-const Pool = mongoose.model('Pool', poolSchema)
-
-module.exports = Pool
+module.exports = RejectPool
