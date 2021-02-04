@@ -30,7 +30,7 @@ router.post('/users/login', async (request, response) => {
     }
 })
 
-router.get('/users/logout', auth, async (request, response) => {
+router.post('/users/logout', auth, async (request, response) => {
     try {
         request.user.tokens = request.user.tokens.filter((token) => {
             return token.token !== request.token
