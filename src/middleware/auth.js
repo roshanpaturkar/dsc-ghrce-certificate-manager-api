@@ -7,6 +7,10 @@ const auth = async (request, response, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token})
 
+        console.log(request.header('Authorization'));
+        console.log(token);
+        console.log(user);
+
         if (!user) {
             throw new Error()
         }
