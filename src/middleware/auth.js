@@ -21,7 +21,7 @@ const auth = async (request, response, next) => {
         next()
     } catch (error) {
         console.log(error);
-        response.status(200).send({error: 'Please authenticate.'})
+        response.status(401).send({error: 'Please authenticate.'})
     }
 }
 
