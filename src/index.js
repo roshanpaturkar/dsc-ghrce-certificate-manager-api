@@ -2,6 +2,8 @@ const express = require('express')
 var cors = require('cors')
 require('./db/mongoose')
 
+const apiKey = require('./key/apiKey')
+
 const userRouter = require('./routers/user')
 const poolRouter = require('./routers/pool')
 const certificatesRouter = require('./routers/certificate')
@@ -12,7 +14,8 @@ const port = process.env.PORT
 
 app.use(cors())
 
-app.get('/', (request, response) => {
+app.get('/:key/', apiKey, (request, response) => {
+    //console.log(request.params.key);
     response.send('Welcome to the DSC GHRCE Certificate Manager!')
 })
 
