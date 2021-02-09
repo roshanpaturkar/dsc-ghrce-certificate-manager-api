@@ -15,7 +15,6 @@ const port = process.env.PORT
 app.use(cors())
 
 app.get('/:key/', apiKey, (request, response) => {
-    //console.log(request.params.key);
     response.send('Welcome to the DSC GHRCE Certificate Manager!')
 })
 
