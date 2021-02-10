@@ -9,7 +9,6 @@ const apiKey = async (request, response, next) => {
 
     axios(config)
     .then(function (response) {
-        console.log(JSON.stringify(response.data));
         next()
     })
     .catch(function (error) {
