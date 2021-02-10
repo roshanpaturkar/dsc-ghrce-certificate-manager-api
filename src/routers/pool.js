@@ -2,12 +2,13 @@ const express = require('express')
 const multer = require('multer')
 const csv = require('csvtojson')
 
+const apiKey = require('../key/apiKey')
+
 const Pool = require('../models/pool')
 const RejectPool = require('../models/rejectPool')
 const Event = require('../models/event')
 const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
-const { request, response } = require('express')
 
 const router = new express.Router()
 
@@ -20,7 +21,7 @@ const upload = multer({
         }
     })
 
-router.post('/publishCertificates', auth, upload.single('certificatesData'), async (request, response) => {
+router.post('/:key/publishCertificates', apiKey, auth, upload.single('certificatesData'), async (request, response) => {
     const userData = {
         userID: request.user._id,
         name: request.user.name,
@@ -38,7 +39,7 @@ router.post('/publishCertificates', auth, upload.single('certificatesData'), asy
     }
 })
 
-router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
+router.post('/:key/verifyCertificates/:eventID', apiKey, auth, async (request, response) => {
     const verifiedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -78,7 +79,7 @@ router.post('/verifyCertificates/:eventID', auth, async (request, response) => {
     }
 })
 
-router.post('/rejectCertificates/:eventID', auth, async (request, response) => {
+router.post('/:key/rejectCertificates/:eventID', apiKey, auth, async (request, response) => {
     const rejectedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -108,7 +109,7 @@ router.post('/rejectCertificates/:eventID', auth, async (request, response) => {
     }
 })
 
-router.delete('/rollback/:eventID', auth, async (request, response) => {
+router.delete('/:key/rollback/:eventID', apiKey, auth, async (request, response) => {
     const rollbackBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -139,7 +140,7 @@ router.delete('/rollback/:eventID', auth, async (request, response) => {
     }
 })
 
-router.get('/pool', auth, async (request, response) => {
+router.get('/:key/pool', apiKey, auth, async (request, response) => {
     let pools = []
 
     try {
