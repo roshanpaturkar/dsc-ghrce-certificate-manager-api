@@ -2,13 +2,15 @@ const express = require('express')
 const multer = require('multer')
 const sharp = require('sharp')
 
+const apiKey = require('../key/apiKey')
+
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
 
 const router = new express.Router()
 
-router.post('/users', unavailable, async (request, response) => {
+router.post('/:key/users', apiKey, unavailable, async (request, response) => {
     const user = new User(request.body)
 
     try {
@@ -20,7 +22,7 @@ router.post('/users', unavailable, async (request, response) => {
     }
 })
 
-router.post('/users/login', async (request, response) => {
+router.post('/:key/users/login', apiKey, async (request, response) => {
     try {
         const user = await User.findUserByCredentials(request.body.email, request.body.password)
         const token = await user.generateAuthToken()
@@ -30,7 +32,7 @@ router.post('/users/login', async (request, response) => {
     }
 })
 
-router.post('/users/logout', auth, async (request, response) => {
+router.post('/:key/users/logout', apiKey, auth, async (request, response) => {
     try {
         request.user.tokens = request.user.tokens.filter((token) => {
             return token.token !== request.token
@@ -43,7 +45,7 @@ router.post('/users/logout', auth, async (request, response) => {
     }
 })
 
-router.post('/users/logoutAll', auth, async (request, response) => {
+router.post('/:key/users/logoutAll', apiKey, auth, async (request, response) => {
     try {
         request.user.tokens = []
         await request.user.save()
@@ -53,11 +55,11 @@ router.post('/users/logoutAll', auth, async (request, response) => {
     }
 })
 
-router.get('/users/me', auth, async (request, response) => {
+router.get('/:key/users/me', apiKey, auth, async (request, response) => {
     response.send(request.user)
 })
 
-router.patch('/users/me', auth, async (request, response) => {
+router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
     const updates = Object.keys(request.body)
     const allowedUpdates = ['name', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -79,7 +81,7 @@ router.patch('/users/me', auth, async (request, response) => {
     }
 })
 
-router.delete('/users/me', unavailable, auth, async (request, response) => {
+router.delete('/:key/users/me', apiKey, unavailable, auth, async (request, response) => {
     try {
         await request.user.remove()
         response.send(request.user)
@@ -100,7 +102,7 @@ const upload = multer ({
         }
     })
 
-router.post('/users/me/avatar', auth, upload.single('avatar'), async (request, response) => {
+router.post('/:key/users/me/avatar', apiKey, auth, upload.single('avatar'), async (request, response) => {
     try {
         const buffer = await sharp(request.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
         request.user.avatar = buffer
@@ -115,7 +117,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (request, r
     response.status(400).send({ error: error.message })
 })
 
-router.delete('/users/me/avatar', auth, async (request, response) => {
+router.delete('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
     try {
 
         if (!request.user.avatar) {
@@ -130,7 +132,7 @@ router.delete('/users/me/avatar', auth, async (request, response) => {
     }
 })
 
-router.get('/users/me/avatar', auth, async (request, response) => {
+router.get('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
     try {
         const user = await User.findById(request.user._id)
 
@@ -144,7 +146,7 @@ router.get('/users/me/avatar', auth, async (request, response) => {
     }
 })
 
-router.get('/users/:id/avatar', auth, async (request, response) => {
+router.get('/:key/users/:id/avatar', apiKey, auth, async (request, response) => {
     try {
         const user = await User.findById(request.params.id)
 
