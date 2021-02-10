@@ -1,12 +1,14 @@
 const express = require('express')
 
+const apiKey = require('../key/apiKey')
+
 const auth = require('../middleware/auth')
 const RejectPool = require('../models/rejectPool')
 const Pool = require('../models/pool')
 
 const router = new express.Router()
 
-router.delete('/rollback/rejectPool/:eventID', auth, async (request, response) => {
+router.delete('/:key/rollback/rejectPool/:eventID', apiKey, auth, async (request, response) => {
     const rejectRollbackBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -30,7 +32,7 @@ router.delete('/rollback/rejectPool/:eventID', auth, async (request, response) =
     }
 })
 
-router.get('/rejectPool', auth, async (request, response) => {
+router.get('/:key/rejectPool', apiKey, auth, async (request, response) => {
     try {
         
         const rejectPool = await RejectPool.find()
