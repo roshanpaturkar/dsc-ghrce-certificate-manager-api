@@ -80,7 +80,7 @@ router.post('/:key/verifyCertificates/:eventID', apiKey, auth, admin, async (req
     }
 })
 
-router.post('/:key/rejectCertificates/:eventID', apiKey, auth, async (request, response) => {
+router.post('/:key/rejectCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const rejectedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -110,7 +110,7 @@ router.post('/:key/rejectCertificates/:eventID', apiKey, auth, async (request, r
     }
 })
 
-router.delete('/:key/rollback/:eventID', apiKey, auth, async (request, response) => {
+router.delete('/:key/rollback/:eventID', apiKey, auth, admin, async (request, response) => {
     const rollbackBy = {
         userID: request.user._id,
         name: request.user.name,
