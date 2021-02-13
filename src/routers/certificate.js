@@ -1,6 +1,6 @@
 const express = require('express')
 
-const apiKey = require('../key/apiKey')
+const apiKey = require('../middleware/apiKey')
 
 const Event = require('../models/event')
 const Certificate = require('../models/certificate')

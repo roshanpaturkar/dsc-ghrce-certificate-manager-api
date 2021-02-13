@@ -2,7 +2,7 @@ const express = require('express')
 var cors = require('cors')
 require('./db/mongoose')
 
-const apiKey = require('./key/apiKey')
+const apiKey = require('./middleware/apiKey')
 
 const userRouter = require('./routers/user')
 const poolRouter = require('./routers/pool')

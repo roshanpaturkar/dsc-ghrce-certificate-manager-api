@@ -1,6 +1,6 @@
 const express = require('express')
 
-const apiKey = require('../key/apiKey')
+const apiKey = require('../middleware/apiKey')
 
 const auth = require('../middleware/auth')
 const RejectPool = require('../models/rejectPool')

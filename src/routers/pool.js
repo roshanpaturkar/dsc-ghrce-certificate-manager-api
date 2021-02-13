@@ -2,7 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const csv = require('csvtojson')
 
-const apiKey = require('../key/apiKey')
+const apiKey = require('../middleware/apiKey')
 
 const Pool = require('../models/pool')
 const RejectPool = require('../models/rejectPool')

@@ -2,7 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const sharp = require('sharp')
 
-const apiKey = require('../key/apiKey')
+const apiKey = require('../middleware/apiKey')
 
 const User = require('../models/user')
 const auth = require('../middleware/auth')
