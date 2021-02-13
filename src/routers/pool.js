@@ -3,6 +3,7 @@ const multer = require('multer')
 const csv = require('csvtojson')
 
 const apiKey = require('../middleware/apiKey')
+const admin = require('../middleware/admin')
 
 const Pool = require('../models/pool')
 const RejectPool = require('../models/rejectPool')
@@ -39,7 +40,7 @@ router.post('/:key/publishCertificates', apiKey, auth, upload.single('certificat
     }
 })
 
-router.post('/:key/verifyCertificates/:eventID', apiKey, auth, async (request, response) => {
+router.post('/:key/verifyCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const verifiedBy = {
         userID: request.user._id,
         name: request.user.name,
