@@ -7,6 +7,7 @@ const apiKey = require('../middleware/apiKey')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
+const { request, response } = require('express')
 
 const router = new express.Router()
 
@@ -79,6 +80,20 @@ router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
     } catch (error) {
         response.status(400).send(error)
     }
+})
+
+router.patch('/:key/users/me/password', apiKey, auth, async (request, response) => {
+    try {
+        const {oldPassword, newPassword} = request.body
+        const user = await User.findUserByCredentials(request.user.email, oldPassword)
+        
+        user.password = newPassword
+        await user.save()
+
+        response.send()
+    } catch (error) {
+        response.status(400).send(error)
+    }    
 })
 
 router.delete('/:key/users/me', apiKey, unavailable, auth, async (request, response) => {
