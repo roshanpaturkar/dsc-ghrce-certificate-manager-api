@@ -61,12 +61,12 @@ router.get('/:key/users/me', apiKey, auth, async (request, response) => {
 
 router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
     const updates = Object.keys(request.body)
-    const allowedUpdates = ['name', 'password']
+    const allowedUpdates = ['name', 'mobile']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
         return response.status(400).send({
-            error: 'Invalid updates! You can only change name and password!',
+            error: 'Invalid updates! You can only change name and mobile!',
             message: 'If you want to change email or mobile number, please contact admin.'
         })
     }
