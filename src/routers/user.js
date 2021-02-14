@@ -146,7 +146,7 @@ router.get('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
     }
 })
 
-router.get('/:key/users/:id/avatar', apiKey, auth, async (request, response) => {
+router.get('/:key/users/:id/avatar', apiKey, async (request, response) => {
     try {
         const user = await User.findById(request.params.id)
 
