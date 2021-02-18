@@ -9,6 +9,7 @@ const apiKey = async (request, response, next) => {
 
     axios(config)
     .then(function (response) {
+        request.key = response.data
         next()
     })
     .catch(function (error) {
