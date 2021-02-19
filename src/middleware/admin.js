@@ -1,6 +1,6 @@
 const admin = async (request, response, next) => {
     try {
-        if (!request.user.admin) { 
+        if (!request.key.admin) { 
             throw new Error()
         }
         next()
