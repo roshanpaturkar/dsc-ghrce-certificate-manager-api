@@ -57,7 +57,7 @@ router.post('/:key/users/logoutAll', apiKey, auth, async (request, response) => 
 })
 
 router.get('/:key/users/me', apiKey, auth, async (request, response) => {
-    response.send(request.user)
+    response.send({ user: request.user, key: request.key })
 })
 
 router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
