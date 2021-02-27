@@ -64,6 +64,13 @@ const eventSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  certificateTypeCode: {
+    type: String,
+    required: true,
+    trim: true,
+    minLength: 1,
+    maxLength: 3
+  },
   certificateType: {
     type: String,
     required: true,

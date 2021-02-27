@@ -106,6 +106,13 @@ const poolSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  certificateTypeCode: {
+    type: String,
+    required: true,
+    trim: true,
+    minLength: 1,
+    maxLength: 3
+  },
   certificateType: {
     type: String,
     required: true,
@@ -214,6 +221,7 @@ poolSchema.statics.getPoolData = async (rawData, userData) => {
     speakerName: rawData[0].speakerName === ""? 'NA': rawData[0].speakerName,
     eventDate: rawData[0].eventDate,
     certificateContent: rawData[0].certificateContent,
+    certificateTypeCode: certificateType.typeCode,
     certificateType: certificateType.certificateType,
    publishedBy: userData
   }

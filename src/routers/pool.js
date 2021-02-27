@@ -72,8 +72,8 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         pool.rollbackBy = undefined
         pool.certificateIssueDate = issueDate
         
-        const {eventID, eventName, description, speakerName, eventDate, certificateContent, certificateType, publishedBy, verified, certificates} = pool
-        const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, certificateType, publishedBy, verified, verifiedBy }
+        const {eventID, eventName, description, speakerName, eventDate, certificateContent, certificateTypeCode, certificateType, publishedBy, verified, certificates} = pool
+        const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, certificateTypeCode, certificateType, publishedBy, verified, verifiedBy }
         const event = new Event(eventData)
         event.certificateIssueDate = issueDate
 
