@@ -184,6 +184,8 @@ const poolSchema = mongoose.Schema({
       },
     },
   },
+}, {
+    timestamps: true
 });
 
 poolSchema.statics.getPoolData = (rawData, userData) => {

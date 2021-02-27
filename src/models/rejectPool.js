@@ -174,6 +174,8 @@ const rejectPoolSchema = mongoose.Schema({
             }
         }
     }
+}, {
+    timestamps: true
 })
 
 const RejectPool = mongoose.model('RejectPool', rejectPoolSchema)

@@ -83,6 +83,8 @@ const eventSchema = mongoose.Schema({
       },
     },
   },
+}, {
+    timestamps: true
 });
 
 eventSchema.methods.toJSON = function() {
