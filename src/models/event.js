@@ -64,6 +64,11 @@ const eventSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  certificateType: {
+    type: String,
+    required: true,
+    trim: true
+  },
   verifiedBy: {
     userID: {
       type: mongoose.Schema.Types.ObjectId,

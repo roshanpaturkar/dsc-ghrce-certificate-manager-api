@@ -33,11 +33,12 @@ router.post('/publishCertificates', apiKey, auth, upload.single('certificatesDat
 
     try {
         const rawData = await csv().fromString(request.file.buffer.toString())
-        const poolData = Pool.getPoolData(rawData, userData)
+        const poolData = await Pool.getPoolData(rawData, userData)
         const pool = new Pool(poolData)
         await pool.save()
         response.send(pool)
     } catch (error) {
+        console.log(error);
         response.status(400).send({ error: error})
     }
 })
@@ -71,8 +72,8 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         pool.rollbackBy = undefined
         pool.certificateIssueDate = issueDate
         
-        const {eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, certificates} = pool
-        const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, verifiedBy }
+        const {eventID, eventName, description, speakerName, eventDate, certificateContent, certificateType, publishedBy, verified, certificates} = pool
+        const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, certificateType, publishedBy, verified, verifiedBy }
         const event = new Event(eventData)
         event.certificateIssueDate = issueDate
 

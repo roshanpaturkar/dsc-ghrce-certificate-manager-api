@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
-const cryptoRandomString = require('crypto-random-string')
+const cryptoRandomString = require('crypto-random-string');
+
+const CertificateType = require('../models/certificateType');
+const { response } = require('express');
 
 const poolSchema = mongoose.Schema({
   eventID: {
@@ -103,6 +106,11 @@ const poolSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  certificateType: {
+    type: String,
+    required: true,
+    trim: true
+  },
   rejected: {
     type: Boolean,
     default: false,
@@ -188,30 +196,40 @@ const poolSchema = mongoose.Schema({
     timestamps: true
 });
 
-poolSchema.statics.getPoolData = (rawData, userData) => {
-    const eventId = rawData[0].eventId === ""? cryptoRandomString({length: 30}) : rawData[0].eventId
-    const eventData = {
-        eventID: eventId,
-        eventName: rawData[0].eventName,
-        description: rawData[0].description,
-        speakerName: rawData[0].speakerName === ""? 'NA': rawData[0].speakerName,
-        eventDate: rawData[0].eventDate,
-        certificateContent: rawData[0].certificateContent,
-        publishedBy: userData
-    }
-    const certificates = []
-    rawData.forEach((value) => {
-        certificates.push({
-            eventID: eventId,
-            certificateID: value.certificateId === ""? cryptoRandomString({length: 20}): value.certificateId,
-            name: `${value.firstName} ${value.lastName}`,
-            email: value.email
-        })
+poolSchema.statics.getPoolData = async (rawData, userData) => {
+
+  certificateTypeCode = rawData[0].certificateTypeCode
+
+  const certificateType = await CertificateType.findOne({ typeCode: certificateTypeCode.toUpperCase() })
+
+  if (!certificateType) {
+    throw new Error ('Invalid certificate type code!')
+  }
+
+  const eventId = rawData[0].eventId === ""? cryptoRandomString({length: 30}) : rawData[0].eventId
+  const eventData = {
+    eventID: eventId,
+    eventName: rawData[0].eventName,
+    description: rawData[0].description,
+    speakerName: rawData[0].speakerName === ""? 'NA': rawData[0].speakerName,
+    eventDate: rawData[0].eventDate,
+    certificateContent: rawData[0].certificateContent,
+    certificateType: certificateType.certificateType,
+   publishedBy: userData
+  }
+  const certificates = []
+  rawData.forEach((value) => {
+      certificates.push({
+      eventID: eventId,
+      certificateID: value.certificateId === ""? cryptoRandomString({length: 20}): value.certificateId,
+      name: `${value.firstName} ${value.lastName}`,
+      email: value.email
     })
+  })
 
-    eventData.certificates = certificates
+  eventData.certificates = certificates
 
-    return eventData
+  return eventData
 }
 
 const Pool = mongoose.model('Pool', poolSchema)
