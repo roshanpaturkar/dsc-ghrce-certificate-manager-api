@@ -11,6 +11,8 @@ const Event = require('../models/event')
 const Certificates = require('../models/certificate')
 const auth = require('../middleware/auth')
 
+const certificateIssueDate = require('../utility/getDate')
+
 const router = new express.Router()
 
 const upload = multer({
@@ -61,15 +63,19 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         if (pool.verified === true) {
             return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
         }
-        
+
+        const issueDate = certificateIssueDate()
+
         pool.verified = true
         pool.verifiedBy = verifiedBy
         pool.rollbackBy = undefined
+        pool.certificateIssueDate = issueDate
         
         const {eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, certificates} = pool
         const eventData = { eventID, eventName, description, speakerName, eventDate, certificateContent, publishedBy, verified, verifiedBy }
         const event = new Event(eventData)
-        
+        event.certificateIssueDate = issueDate
+
         await event.save()
         await Certificates.insertMany(certificates)
         await pool.save()
@@ -129,6 +135,7 @@ router.delete('/rollback/:eventID', apiKey, auth, admin, async (request, respons
         
         pool.verified = false
         pool.verifiedBy = undefined
+        pool.certificateIssueDate = undefined
         pool.rollbackBy = rollbackBy
         
         await pool.save()
