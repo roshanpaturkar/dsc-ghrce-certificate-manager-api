@@ -11,7 +11,7 @@ const { request, response } = require('express')
 
 const router = new express.Router()
 
-router.post('/:key/users', apiKey, unavailable, async (request, response) => {
+router.post('/users', apiKey, unavailable, async (request, response) => {
     const user = new User(request.body)
 
     try {
@@ -23,7 +23,7 @@ router.post('/:key/users', apiKey, unavailable, async (request, response) => {
     }
 })
 
-router.post('/:key/users/login', apiKey, async (request, response) => {
+router.post('/users/login', apiKey, async (request, response) => {
     try {
         const user = await User.findUserByCredentials(request.body.email, request.body.password)
         const token = await user.generateAuthToken()
@@ -33,7 +33,7 @@ router.post('/:key/users/login', apiKey, async (request, response) => {
     }
 })
 
-router.post('/:key/users/logout', apiKey, auth, async (request, response) => {
+router.post('/users/logout', apiKey, auth, async (request, response) => {
     try {
         request.user.tokens = request.user.tokens.filter((token) => {
             return token.token !== request.token
@@ -46,7 +46,7 @@ router.post('/:key/users/logout', apiKey, auth, async (request, response) => {
     }
 })
 
-router.post('/:key/users/logoutAll', apiKey, auth, async (request, response) => {
+router.post('/users/logoutAll', apiKey, auth, async (request, response) => {
     try {
         request.user.tokens = []
         await request.user.save()
@@ -56,11 +56,11 @@ router.post('/:key/users/logoutAll', apiKey, auth, async (request, response) => 
     }
 })
 
-router.get('/:key/users/me', apiKey, auth, async (request, response) => {
+router.get('/users/me', apiKey, auth, async (request, response) => {
     response.send({ user: request.user, key: request.key })
 })
 
-router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
+router.patch('/users/me', apiKey, auth, async (request, response) => {
     const updates = Object.keys(request.body)
     const allowedUpdates = ['name', 'mobile']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -82,7 +82,7 @@ router.patch('/:key/users/me', apiKey, auth, async (request, response) => {
     }
 })
 
-router.patch('/:key/users/me/password', apiKey, auth, async (request, response) => {
+router.patch('/users/me/password', apiKey, auth, async (request, response) => {
     try {
         const {oldPassword, newPassword} = request.body
         const user = await User.findUserByCredentials(request.user.email, oldPassword)
@@ -96,7 +96,7 @@ router.patch('/:key/users/me/password', apiKey, auth, async (request, response) 
     }    
 })
 
-router.delete('/:key/users/me', apiKey, unavailable, auth, async (request, response) => {
+router.delete('/users/me', apiKey, unavailable, auth, async (request, response) => {
     try {
         await request.user.remove()
         response.send(request.user)
@@ -117,7 +117,7 @@ const upload = multer ({
         }
     })
 
-router.post('/:key/users/me/avatar', apiKey, auth, upload.single('avatar'), async (request, response) => {
+router.post('/users/me/avatar', apiKey, auth, upload.single('avatar'), async (request, response) => {
     try {
         const buffer = await sharp(request.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
         request.user.avatar = buffer
@@ -132,7 +132,7 @@ router.post('/:key/users/me/avatar', apiKey, auth, upload.single('avatar'), asyn
     response.status(400).send({ error: error.message })
 })
 
-router.delete('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
+router.delete('/users/me/avatar', apiKey, auth, async (request, response) => {
     try {
 
         if (!request.user.avatar) {
@@ -147,7 +147,7 @@ router.delete('/:key/users/me/avatar', apiKey, auth, async (request, response) =
     }
 })
 
-router.get('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
+router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
     try {
         const user = await User.findById(request.user._id)
 
@@ -161,7 +161,7 @@ router.get('/:key/users/me/avatar', apiKey, auth, async (request, response) => {
     }
 })
 
-router.get('/:key/users/:id/avatar', apiKey, async (request, response) => {
+router.get('/users/:id/avatar', apiKey, async (request, response) => {
     try {
         const user = await User.findById(request.params.id)
 
