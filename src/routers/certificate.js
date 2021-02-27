@@ -7,7 +7,7 @@ const Certificate = require('../models/certificate')
 
 const router = new express.Router()
 
-router.get('/:key/certificates/:id', apiKey, async (request, response) => {
+router.get('/certificates/:id', apiKey, async (request, response) => {
     try {
         const certificate = await Certificate.findOne({ certificateID: request.params.id })
         const event = await Event.findOne({ eventID: certificate.eventID })
