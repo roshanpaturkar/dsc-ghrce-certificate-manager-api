@@ -22,7 +22,7 @@ const upload = multer({
         }
     })
 
-router.post('/:key/publishCertificates', apiKey, auth, upload.single('certificatesData'), async (request, response) => {
+router.post('/publishCertificates', apiKey, auth, upload.single('certificatesData'), async (request, response) => {
     const userData = {
         userID: request.user._id,
         name: request.user.name,
@@ -40,7 +40,7 @@ router.post('/:key/publishCertificates', apiKey, auth, upload.single('certificat
     }
 })
 
-router.post('/:key/verifyCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
+router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const verifiedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -80,7 +80,7 @@ router.post('/:key/verifyCertificates/:eventID', apiKey, auth, admin, async (req
     }
 })
 
-router.post('/:key/rejectCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
+router.post('/rejectCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const rejectedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -110,7 +110,7 @@ router.post('/:key/rejectCertificates/:eventID', apiKey, auth, admin, async (req
     }
 })
 
-router.delete('/:key/rollback/:eventID', apiKey, auth, admin, async (request, response) => {
+router.delete('/rollback/:eventID', apiKey, auth, admin, async (request, response) => {
     const rollbackBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -141,7 +141,7 @@ router.delete('/:key/rollback/:eventID', apiKey, auth, admin, async (request, re
     }
 })
 
-router.get('/:key/pool', apiKey, auth, async (request, response) => {
+router.get('/pool', apiKey, auth, async (request, response) => {
     let pools = []
 
     try {
