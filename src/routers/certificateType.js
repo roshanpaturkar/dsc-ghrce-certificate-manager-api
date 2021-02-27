@@ -68,4 +68,19 @@ router.get('/certificateType', apiKey,  auth, admin, async (request, response) =
     }
 })
 
+router.delete('/certificateType/:typeCode', apiKey, auth, admin, async (request, response) => {
+    try {
+        const pool = await Pool.find({ certificateTypeCode: request.params.typeCode.toUpperCase()})
+
+        if (pool.length !== 0) {
+            return response.status(400).send({ error: `Can not delete this certificate type, ${pool.length} event data is associated with this certificate type!` })
+        }
+
+        await CertificateType.deleteOne({ typeCode: request.params.typeCode.toUpperCase()})
+        response.send()
+    } catch (error) {
+        response.status(500).send()
+    }
+})
+
 module.exports = router
