@@ -7,7 +7,6 @@ const apiKey = require('../middleware/apiKey')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
-const { request, response } = require('express')
 
 const router = new express.Router()
 
