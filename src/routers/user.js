@@ -161,7 +161,7 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
 })
 
 router.get('/users/:id/avatar', async (request, response) => {
-    console.log(request.host);
+    console.log(request.host === process.env.SAFEHOST);
     try {
         const user = await User.findById(request.params.id)
 
