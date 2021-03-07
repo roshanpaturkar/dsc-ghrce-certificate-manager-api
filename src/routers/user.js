@@ -161,21 +161,33 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
 })
 
 router.get('/users/:id/avatar', async (request, response) => {
-    if (request.headers.referer === process.env.SAFEHOST || request.headers.host === process.env.SAFEHOST) {
-        try {
-            const user = await User.findById(request.params.id)
+    // if (request.headers.referer === process.env.SAFEHOST || request.headers.host === process.env.SAFEHOST) {
+    //     try {
+    //         const user = await User.findById(request.params.id)
 
-            if (!user || !user.avatar) {
-                throw new Error()
-            }
-            response.set('Content-Type', 'image/png')
-            response.send(user.avatar)
-        } catch (error) {
-            console.log(error);
-            response.status(404).send()
-        }       
+    //         if (!user || !user.avatar) {
+    //             throw new Error()
+    //         }
+    //         response.set('Content-Type', 'image/png')
+    //         response.send(user.avatar)
+    //     } catch (error) {
+    //         console.log(error);
+    //         response.status(404).send()
+    //     }       
+    // }
+    // response.status(404).send()
+    try {
+        const user = await User.findById(request.params.id)
+
+        if (!user || !user.avatar) {
+            throw new Error()
+        }
+        response.set('Content-Type', 'image/png')
+        response.send(user.avatar)
+    } catch (error) {
+        console.log(error);
+        response.status(404).send()
     }
-    response.status(404).send()
 })
 
 module.exports = router
