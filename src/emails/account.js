@@ -32,6 +32,5 @@ const sendOtp = (name, otpData) => {
 module.exports = {
     sendWelcomeEmail,
     sendGoodByeEmail,
-    sendAPIKey,
     sendOtp
 }
