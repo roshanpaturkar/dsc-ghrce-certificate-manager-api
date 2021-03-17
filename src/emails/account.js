@@ -20,15 +20,6 @@ const sendGoodByeEmail = (email, name) => {
     })
 }
 
-const sendAPIKey = (keyData, projectData) => {
-    sgMail.send({
-        to: keyData.email,
-        from: 'paturkarr@gmail.com',
-        subject: `Your API Key Generated, Enjoy!`,
-        text: `Hello ${keyData.name}\nYour API Key is generated for ${projectData.projectName}. We are hoping that you will not going to misuse this key.\n\nAPI Key Details:\nKey Owner: ${keyData.name}\nEmail: ${keyData.email}\nMobile: ${keyData.mobile}\nProject Name: ${projectData.projectName}\nDescription: ${projectData.description}\nBase URL: ${projectData.baseUrl.replace('https://', '')}\nAPI Key: ${keyData.apiKey}\nLimit: ${keyData.limit === 0? '∞': keyData.limit} hits \n\nWARNING: If you misuse this key, your key will be disable and you will be permanently blocked for this service.`
-    })
-}
-
 const sendOtp = (name, otpData) => {
     sgMail.send({
         to: otpData.email,
