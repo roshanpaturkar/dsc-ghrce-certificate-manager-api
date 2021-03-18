@@ -6,10 +6,11 @@ const User = require('../models/user')
 const { sendOtp } = require('../emails/account')
 
 const passwordResetAuth = require('../middleware/passwordResetAuth')
+const apiKey = require('../middleware/apiKey')
 
 const router = new express.Router()
 
-router.post('/forgetPassword', async (request, response) => {
+router.post('/forgetPassword', apiKey, async (request, response) => {
     const genDate = new Date()
     const expiryDate = new Date()
     expiryDate.setMinutes(expiryDate.getMinutes() + 10)
@@ -41,7 +42,7 @@ router.post('/forgetPassword', async (request, response) => {
     }
 })
 
-router.post('/verifyOtp', async (request, response) => {
+router.post('/verifyOtp', apiKey, async (request, response) => {
     try {
         const currentTime = new Date()
         const otp = await Otp.findOne({ email: request.body.email, otp: request.body.otp})
@@ -63,7 +64,7 @@ router.post('/verifyOtp', async (request, response) => {
     }
 })
 
-router.post('/resetPassword', passwordResetAuth, async (request, response) => {
+router.post('/resetPassword', apiKey, passwordResetAuth, async (request, response) => {
     try {
         const currentTime = new Date()
         if (currentTime > request.otp.generateDateTime && currentTime < request.otp.expiryDateTime) {
