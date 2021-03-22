@@ -175,6 +175,7 @@ const sendCertificate = async (certificateData, eventName) => {
 </html>`
     
     await transporter.sendMail({
+		priority: 'high',
         from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
         to: certificateData.email,
         subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
