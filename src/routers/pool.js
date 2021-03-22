@@ -83,7 +83,7 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         await pool.save()
 
         certificates.forEach(certificate => {
-            await sendCertificate(certificate, eventName)
+            sendCertificate(certificate, eventName)
         });
         
         response.status(201).send()
