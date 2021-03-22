@@ -3,7 +3,7 @@ const cryptoRandomString = require('crypto-random-string')
 
 const Otp = require('../models/otp')
 const User = require('../models/user')
-const { sendOtp } = require('../emails/account')
+const sendOtp = require('../emails/sendOtp')
 
 const passwordResetAuth = require('../middleware/passwordResetAuth')
 const apiKey = require('../middleware/apiKey')
@@ -38,6 +38,7 @@ router.post('/forgetPassword', apiKey, async (request, response) => {
 
         response.status(201).send({ message: 'OTP is sent to your registered email.' })
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
