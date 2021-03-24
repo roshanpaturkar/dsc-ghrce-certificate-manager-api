@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
+    priority: 'high',
     host: process.env.MAILHOST,
     port: parseInt(process.env.MAILHOSTPORT),
     secure: true,
