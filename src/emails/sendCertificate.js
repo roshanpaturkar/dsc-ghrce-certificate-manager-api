@@ -175,15 +175,15 @@ const sendCertificate = async (certificateData, eventName) => {
 </body>
 </html>`
     const transporter1 = nodemailer.createTransport({
-    service: 'gmail',
+    	service: 'gmail',
     //priority: 'high',
-    auth: {
-      user: process.env.MAILEREMAIL,
-      pass: process.env.MAILERPASSWORD,
-    }
-  });
+    	auth: {
+      	user: process.env.MAILEREMAIL,
+      	pass: process.env.MAILERPASSWORD,
+    	}
+ 	});
     await transporter1.sendMail({
-		priority: 'high',
+		//priority: 'high',
         from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
         to: certificateData.email,
         subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
