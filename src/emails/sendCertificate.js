@@ -183,8 +183,7 @@ const sendCertificate = async (certificateData, eventName) => {
     	    	html: body
     		}).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`))
 		} catch (error) {
-			console.log(`Failed to set ${certificateData.email}`)
-			console.log(`Sending again to ${certificateData.email}`)
+			console.log(`Failed to set ${certificateData.email}, Sending again!`)
 			sendCertificate()
 		}
 	}
