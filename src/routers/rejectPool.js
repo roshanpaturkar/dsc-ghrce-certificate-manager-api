@@ -29,6 +29,7 @@ router.delete('/rollback/rejectPool/:eventID', apiKey, auth, admin, async (reque
 
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(400).send({ error: 'Duplicate data found in pool!' })   
     }
 })
