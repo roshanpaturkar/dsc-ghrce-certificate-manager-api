@@ -1,6 +1,5 @@
 const transporter = require('./account')
-const { SMTPClient } = require('emailjs')
-//import { SMTPClient } from 'emailjs';
+import { SMTPClient } from 'emailjs';
 
 const sendCertificate = async (certificateData, eventName) => {
     const body = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -176,32 +175,14 @@ const sendCertificate = async (certificateData, eventName) => {
 </body>
 </html>`
 
-    // await transporter.sendMail({
-    //     from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
-    //     to: certificateData.email,
-    //     subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
-    //     html: body
-    // }).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`)).catch((error) => console.log(error))
+    const data = await transporter.sendMail({
+        from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
+        to: certificateData.email,
+        subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
+        html: body
+    }).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`)).catch((error) => console.log(error))
 
-	const client = new SMTPClient({
-	user: process.env.MAILEREMAIL,
-	password: process.env.MAILERPASSWORD,
-	host: 'smtp.gmail.com',
-	ssl: true,
-});
-
-// send the message and get a callback with an error or details of the message that was sent
-client.send(
-	{
-		text: 'i hope this works',
-		from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
-		to: certificateData.email,
-		subject: 'testing emailjs',
-	},
-	(err, message) => {
-		console.log(err || message);
-	}
-);
+	console.log(`transporter-------------------->>>>> ${data}`);
 }
 
 module.exports = sendCertificate
