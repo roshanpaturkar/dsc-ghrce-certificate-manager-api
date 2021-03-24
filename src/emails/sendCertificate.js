@@ -174,14 +174,16 @@ const sendCertificate = async (certificateData, eventName) => {
 </body>
 </html>`
 
-    const data = await transporter.sendMail({
-        from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
-        to: certificateData.email,
-        subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
-        html: body
-    }).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`)).catch((error) => console.log(error))
-
-	console.log(`transporter-------------------->>>>> ${data}`);
+    try {
+		await transporter.sendMail({
+        	from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
+        	to: certificateData.email,
+        	subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
+        	html: body
+    	}).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`))
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 module.exports = sendCertificate
