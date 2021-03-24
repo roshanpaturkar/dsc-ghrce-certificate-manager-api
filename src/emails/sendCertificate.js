@@ -182,7 +182,7 @@ const sendCertificate = async (certificateData, eventName) => {
         	html: body
     	}).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`))
 	} catch (error) {
-		console.log(error);
+		console.log('Error Aaala!');
 	}
 }
 
