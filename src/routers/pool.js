@@ -83,11 +83,11 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         await pool.save()
 
         let count = 1;
-        await certificates.forEach(async certificate => {
+        certificates.forEach(async certificate => {
             console.log(`${count++} Sent > ${certificate.name} ${certificate.email}`);
-            setTimeout(await sendCertificate(certificate, eventName).catch(error => {
+            await sendCertificate(certificate, eventName).catch(error => {
                 console.log(error);
-            }), 3000)
+            })
         });
         
         response.status(201).send()
