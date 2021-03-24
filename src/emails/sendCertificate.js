@@ -174,7 +174,7 @@ const sendCertificate = async (certificateData, eventName) => {
 </body>
 </html>`
 
-	const send = async () =>  {
+	const sendCertificate = async () =>  {
 		try {
 			await transporter.sendMail({
         		from: '"DSC GHRCE 📪" certificate.dscghrce@gmail.com',
@@ -183,12 +183,12 @@ const sendCertificate = async (certificateData, eventName) => {
     	    	html: body
     		}).then(console.log(`Sent > ${certificateData.name} ${certificateData.email}`))
 		} catch (error) {
-			console.log(`Failed to set ${certificateData.email}`);
-			console.log('Error Aaala!');
-			send()
+			console.log(`Failed to set ${certificateData.email}`)
+			console.log(`Sending again to ${certificateData.email}`)
+			sendCertificate()
 		}
 	}
-	send()
+	sendCertificate()
 }
 
 module.exports = sendCertificate
