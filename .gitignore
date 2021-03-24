@@ -4,3 +4,6 @@ config/
 
 push.cmd
 open.cmd
+
+startRegistration.cmd
+stopRegistration.cmd
