@@ -93,6 +93,18 @@ const rejectPoolSchema = mongoose.Schema({
         default: false,
         required: true
     },
+    certificateTypeCode: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+        maxLength: 3
+    },
+    certificateType: {
+        type: String,
+        required: true,
+        trim: true
+    },
     rejected: {
         type: Boolean,
         default: false,
