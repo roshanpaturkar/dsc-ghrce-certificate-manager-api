@@ -180,8 +180,7 @@ const sendCertificate = async (certificateData, eventName) => {
         to: certificateData.email,
         subject: `Hello ${certificateData.name} | Your Certificate Is Here 🥇 | noreply`,
         html: body
-    })
-	console.log(transporter);	
+    })	
 }
 
 module.exports = sendCertificate
