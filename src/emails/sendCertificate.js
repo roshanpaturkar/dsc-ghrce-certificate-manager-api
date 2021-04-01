@@ -133,7 +133,7 @@ const sendCertificate = async (certificateData, eventName) => {
 									<div class="col_cont" style="width:100% !important;">
 										<div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
 											<div class="img-container center fixedwidth" align="center" style="padding-right: 0px;padding-left: 0px;">
-												<div style="font-size:1px;line-height:35px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://firebasestorage.googleapis.com/v0/b/dscghrcecertificates.appspot.com/o/DSC%20GHRCE%20Light%20Vertical-Logo%20(1).png?alt=media&amp;token=11801122-d8ed-4e12-bcfa-d8edfe485dc9" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 425px; display: block;" width="425">
+												<div style="font-size:1px;line-height:35px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://firebasestorage.googleapis.com/v0/b/dscghrcecertificates.appspot.com/o/Untitled-1.png?alt=media&token=df8caa6b-b33d-4367-ac25-203c39011d88" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 425px; display: block;" width="425">
 												<div style="font-size:1px;line-height:35px">&nbsp;</div>
 											</div>
 										</div>
