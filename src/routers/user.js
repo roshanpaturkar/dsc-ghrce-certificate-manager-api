@@ -25,14 +25,14 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
 
 router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, response) => {
     try {
-        const user = await User.findOne({_id: request.body.id})
+        const user = await User.findOne({_id: request.params.id})
 
         if (!user) {
             console.log('innnnnnn');
             throw new Error()
         }
 
-        if (request.body.status === 'false') {
+        if (request.params.status === 'false') {
             user.disable = false
             await user.save()
             return response.send({message: `${user.email} is enable.`})
