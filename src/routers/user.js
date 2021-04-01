@@ -28,6 +28,7 @@ router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, r
         const user = await User.findOne({_id: request.body.id})
 
         if (!user) {
+            console.log('innnnnnn');
             throw new Error()
         }
 
