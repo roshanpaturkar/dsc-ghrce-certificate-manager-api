@@ -6,6 +6,7 @@ const auth = require('../middleware/auth')
 const Event = require('../models/event')
 const Certificate = require('../models/certificate')
 const sendCertificate = require('../emails/sendCertificate')
+const admin = require('../middleware/admin')
 
 const router = new express.Router()
 
@@ -20,7 +21,7 @@ router.get('/certificates/:id', apiKey, async (request, response) => {
     }
 })
 
-router.get('/sendCertificate/:id', apiKey, auth, async (request, response) => {
+router.get('/sendCertificate/:id', apiKey, auth, admin, async (request, response) => {
     try {
         const certificate = await Certificate.findOne({ certificateID: request.params.id })
         const event = await Event.findOne({ eventID: certificate.eventID })

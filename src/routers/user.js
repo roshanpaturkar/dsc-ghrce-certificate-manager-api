@@ -23,7 +23,7 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
     }
 })
 
-router.post('/users/disable/:id/:status', apiKey, async (request, response) => {
+router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, response) => {
     try {
         const user = await User.findOne({_id: request.params.id})
 
