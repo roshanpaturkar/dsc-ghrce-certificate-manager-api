@@ -7,6 +7,7 @@ const apiKey = require('../middleware/apiKey')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
+const admin = require('../middleware/admin')
 
 const router = new express.Router()
 
@@ -19,6 +20,28 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
         response.status(201).send({user, token})
     } catch (error) {
         response.status(400).send(error)
+    }
+})
+
+router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, response) => {
+    try {
+        const user = await User.findOne({_id: request.body.id})
+
+        if (!user) {
+            throw new Error()
+        }
+
+        if (request.body.status === 'false') {
+            user.disable = false
+            await user.save()
+            return response.send({message: `${user.email} is enable.`})
+        }
+        user.disable = true
+        await user.save()
+        response.send({message: `${user.email} is disable.`})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send()
     }
 })
 
