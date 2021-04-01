@@ -7,6 +7,12 @@ const auth = async (request, response, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token})
 
+        if (user.disable) {
+            user.tokens = []
+            await user.save()
+            return response.status(403).send({message: `${user.email} is disable by the admin!`})
+        }
+
         if (!user) {
             throw new Error()
         }

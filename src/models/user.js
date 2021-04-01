@@ -9,6 +9,11 @@ const userSchema = mongoose.Schema({
         required: true,
         default: false
     },
+    disable: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     name: {
         type: String,
         required: true,

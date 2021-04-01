@@ -25,6 +25,13 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
 router.post('/users/login', apiKey, async (request, response) => {
     try {
         const user = await User.findUserByCredentials(request.body.email, request.body.password)
+
+        if (user.disable) {
+            user.tokens = []
+            await user.save()
+            return response.status(403).send({message: `${user.email} is disable by the admin!`})
+        }
+
         const token = await user.generateAuthToken()
         response.send({ user, token, key: request.key })
     } catch (error) {
