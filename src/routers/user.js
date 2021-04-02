@@ -42,6 +42,10 @@ router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, r
             throw new Error()
         }
 
+        if (user.admin) {
+            return response.status(405).send({message: 'Your not allowed to disable the admin!'})
+        }
+
         if (request.params.status === 'false') {
             user.disable = false
             await user.save()
