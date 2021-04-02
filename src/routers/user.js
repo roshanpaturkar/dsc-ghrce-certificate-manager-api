@@ -26,8 +26,8 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
 
 router.get('/users', apiKey, auth, admin, async () => {
     try {
-        const users = await User.find()
-        response.send(JSON.stringify(users))
+        //const users = await User.find()
+        response.send(await User.find())
     } catch (error) {
         console.log(error)
         response.status(400).send(error)
