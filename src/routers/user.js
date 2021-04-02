@@ -28,7 +28,7 @@ router.get('/users', apiKey, auth, admin, async () => {
     try {
         const users = await User.find()
         console.log(users);
-        response.send(users)
+        response.send({users: users})
     } catch (error) {
         console.log(error)
         response.status(400).send(error)
