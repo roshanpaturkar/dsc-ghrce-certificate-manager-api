@@ -8,6 +8,7 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
 const admin = require('../middleware/admin')
+const { response } = require('express')
 
 const router = new express.Router()
 
@@ -19,6 +20,16 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
         const token = await user.generateAuthToken()
         response.status(201).send({user, token})
     } catch (error) {
+        response.status(400).send(error)
+    }
+})
+
+router.get('/users', apiKey, auth, admin, async () => {
+    try {
+        const users = await User.find()
+        response.send(users)
+    } catch (error) {
+        console.log(error)
         response.status(400).send(error)
     }
 })
