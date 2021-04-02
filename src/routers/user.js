@@ -27,6 +27,7 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
 router.get('/users', apiKey, auth, admin, async () => {
     try {
         const users = await User.find()
+        console.log(users);
         response.send(users)
     } catch (error) {
         console.log(error)
