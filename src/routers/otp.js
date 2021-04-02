@@ -61,6 +61,7 @@ router.post('/verifyOtp', apiKey, async (request, response) => {
         }
         response.status(400).send({ message: 'Invalid OTP!' })
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })

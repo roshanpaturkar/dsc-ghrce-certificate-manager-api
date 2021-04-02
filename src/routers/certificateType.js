@@ -1,4 +1,3 @@
-const { request, response } = require('express')
 const express = require('express')
 
 const apiKey = require('../middleware/apiKey')
@@ -18,6 +17,7 @@ router.post('/certificateType', apiKey, auth, admin, async (request, response) =
         await certificateType.save()
         response.status(201).send(certificateType)
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }
 })
@@ -64,6 +64,7 @@ router.get('/certificateType', apiKey,  auth, admin, async (request, response) =
         }
         response.send(certificateTypes)
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
@@ -79,6 +80,7 @@ router.delete('/certificateType/:typeCode', apiKey, auth, admin, async (request,
         await CertificateType.deleteOne({ typeCode: request.params.typeCode.toUpperCase()})
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })

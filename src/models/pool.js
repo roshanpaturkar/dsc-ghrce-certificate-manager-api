@@ -3,7 +3,6 @@ const validator = require('validator')
 const cryptoRandomString = require('crypto-random-string');
 
 const CertificateType = require('../models/certificateType');
-const { response } = require('express');
 
 const poolSchema = mongoose.Schema({
   eventID: {

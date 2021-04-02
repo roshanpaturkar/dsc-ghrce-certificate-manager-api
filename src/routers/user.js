@@ -8,7 +8,6 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const unavailable = require('../middleware/unavailable')
 const admin = require('../middleware/admin')
-const { response } = require('express')
 
 const router = new express.Router()
 
@@ -20,6 +19,7 @@ router.post('/users', apiKey, unavailable, async (request, response) => {
         const token = await user.generateAuthToken()
         response.status(201).send({user, token})
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }
 })
@@ -73,6 +73,7 @@ router.post('/users/login', apiKey, async (request, response) => {
         const token = await user.generateAuthToken()
         response.send({ user, token, key: request.key })
     } catch (error) {
+        console.log(error);
         response.status(400).send()
     }
 })
@@ -86,6 +87,7 @@ router.post('/users/logout', apiKey, auth, async (request, response) => {
         await request.user.save()
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(500).send(error)
     }
 })
@@ -96,6 +98,7 @@ router.post('/users/logoutAll', apiKey, auth, async (request, response) => {
         await request.user.save()
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
@@ -122,6 +125,7 @@ router.patch('/users/me', apiKey, auth, async (request, response) => {
 
         response.send(request.user)
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }
 })
@@ -136,6 +140,7 @@ router.patch('/users/me/password', apiKey, auth, async (request, response) => {
 
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }    
 })
@@ -145,6 +150,7 @@ router.delete('/users/me', apiKey, unavailable, auth, async (request, response) 
         await request.user.remove()
         response.send(request.user)
     } catch (error) {
+        console.log(error);
         response.status(500).send()   
     }
 })
@@ -187,6 +193,7 @@ router.delete('/users/me/avatar', apiKey, auth, async (request, response) => {
         await request.user.save()
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
@@ -201,6 +208,7 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
         response.set('Content-Type', 'image/png')
         response.send(user.avatar)
     } catch (error) {
+        console.log(error);
         response.status(404).send()
     }
 })

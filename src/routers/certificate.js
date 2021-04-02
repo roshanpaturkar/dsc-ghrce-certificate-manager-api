@@ -17,6 +17,7 @@ router.get('/certificates/:id', apiKey, async (request, response) => {
         
         response.send({ event, certificate })
     } catch (error) {
+        console.log(error);
         response.status(404).send({ error: 'Invalid Certificate ID!'})
     }
 })
@@ -29,6 +30,7 @@ router.get('/sendCertificate/:id', apiKey, auth, admin, async (request, response
 
         response.send({message: `Certificate sent to ${certificate.name} on ${certificate.email}`})
     } catch (error) {
+        console.log(error);
         response.status(404).send({ error: 'Invalid Certificate ID!'})
     }
 })

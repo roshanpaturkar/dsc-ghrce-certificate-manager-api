@@ -88,6 +88,7 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         
         response.status(201).send()
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }
 })
@@ -118,6 +119,7 @@ router.post('/rejectCertificates/:eventID', apiKey, auth, admin, async (request,
 
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(400).send(error)
     }
 })
@@ -150,6 +152,7 @@ router.delete('/rollback/:eventID', apiKey, auth, admin, async (request, respons
 
         response.send()
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
@@ -171,6 +174,7 @@ router.get('/pool', apiKey, auth, async (request, response) => {
         }
         response.send(pools)
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })

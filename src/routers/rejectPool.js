@@ -44,6 +44,7 @@ router.get('/rejectPool', apiKey, auth, admin, async (request, response) => {
         }
         response.send(rejectPool)
     } catch (error) {
+        console.log(error);
         response.status(500).send()
     }
 })
