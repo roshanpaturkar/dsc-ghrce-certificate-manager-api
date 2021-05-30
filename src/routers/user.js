@@ -48,6 +48,7 @@ router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, r
 
         if (request.params.status === 'false') {
             user.disable = false
+            user.tokens = []
             await user.save()
             return response.send({message: `${user.email} is enable.`})
         }
