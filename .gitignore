@@ -2,7 +2,7 @@ node_modules/
 config/
 *.log
 
-push.cmd
+deploy.cmd
 open.cmd
 
 startRegistration.cmd
