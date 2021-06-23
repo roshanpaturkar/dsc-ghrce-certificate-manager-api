@@ -11,6 +11,9 @@ const apiKey = async (request, response, next) => {
     var config = {
       method: "get",
       url: `${process.env.API_KEY}${key}`,
+      data: {
+        'projectRepository': process.env.npm_package_repository_url
+      },
     };
 
     axios(config)
@@ -19,9 +22,11 @@ const apiKey = async (request, response, next) => {
         next();
       })
       .catch(function (error) {
-        return response.status(error.response.status).send(error.response.data);
+        console.log(error);
+        return response.status(400).send(error.response.data);
       });
   } catch (error) {
+    console.log(error);
     response.status(401).send({ error: "API Key is missing!" });
   }
 };
