@@ -4,16 +4,10 @@ const cryptoRandomString = require("crypto-random-string");
 
 const apiKey = require("../middleware/apiKey");
 
-const auth = require("../middleware/auth");
 const Event = require("../models/event");
 const Certificate = require("../models/certificate");
-const sendCertificate = require("../emails/sendCertificate");
-const admin = require("../middleware/admin");
-const { async } = require("crypto-random-string");
 
 const router = new express.Router();
-
-let userCertificatesData = [];
 
 router.get("/certificates/email/:email", apiKey, async (request, response) => {
     const deta = Deta("c0i9fb8y_h54tokyywsUuX3F3Zbuk2cMxM5avEGJF"); // configure your Deta project
@@ -42,10 +36,5 @@ router.get("/certificates/email/:email", apiKey, async (request, response) => {
         response.status(404).send({ error: "Certificates not found!" });
     }
 });
-
-function apple(data) {
-    a = data.toString()
-    console.log();
-}
 
 module.exports = router;
