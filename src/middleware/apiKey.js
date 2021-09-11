@@ -9,10 +9,11 @@ const apiKey = async (request, response, next) => {
     }
 
     var config = {
-      method: "get",
-      url: `${process.env.API_KEY}${key}`,
+      method: "post",
+      url: `${process.env.API_KEY}${process.env.SERVER_ID}/${key}`,
       data: {
-        'projectRepository': process.env.npm_package_repository_url
+        method: Object.keys(request.route.methods)[0].toUpperCase(),
+        endPoint: `https://dscghrce-certificates-prod.herokuapp.com${request._parsedUrl.path}`,
       },
     };
 
