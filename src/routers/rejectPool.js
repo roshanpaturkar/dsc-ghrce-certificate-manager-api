@@ -6,6 +6,7 @@ const admin = require('../middleware/admin')
 const auth = require('../middleware/auth')
 const RejectPool = require('../models/rejectPool')
 const Pool = require('../models/pool')
+const { async } = require('crypto-random-string')
 
 const router = new express.Router()
 
@@ -48,5 +49,17 @@ router.get('/rejectPool', apiKey, auth, admin, async (request, response) => {
         response.status(500).send()
     }
 })
+
+
+router.delete("/rejectPool/event/:eventID", apiKey, auth, admin, async(request, response) => {
+    const rejectPool = await RejectPool.findOne({
+      eventID: request.params.eventID,
+    });
+    if (!rejectPool) {
+      return response.status(404).send({ error: "Invalid Event ID!" });
+    }
+    await rejectPool.remove();
+    response.send();
+});
 
 module.exports = router
