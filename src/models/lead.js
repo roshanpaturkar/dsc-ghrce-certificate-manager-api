@@ -33,7 +33,6 @@ const leadSchema = new mongoose.Schema({
   events: [{
     eventID: {
       type: String,
-      unique: true,
       required: true,
     },
     eventName: {
