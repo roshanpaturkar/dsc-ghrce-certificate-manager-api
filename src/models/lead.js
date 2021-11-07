@@ -42,6 +42,7 @@ const leadSchema = new mongoose.Schema({
   }],
   leadTenure: {
     type: String,
+    unique: true,
     required: true,
     trim: true
   },
