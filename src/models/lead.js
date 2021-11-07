@@ -4,6 +4,7 @@ const validator = require("validator");
 const leadSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
     required: true,
     trim: true
   },
