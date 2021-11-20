@@ -58,6 +58,23 @@ router.post('/certificate/template', apiKey, auth, admin, async (request, respon
     }
 })
 
+router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, response) => {
+    try {
+        const certificateTemplate = await CertificateTemplate.findById(request.params.id)
+        if (!certificateTemplate) {
+            return response.status(404).send({error: 'Invalid certificate template ID!'})
+        }
+        if (certificateTemplate.linkedEvent.length != 0) {
+            return response.status(400).send({error: 'Certificate template is linked to an event!'})
+        }
+        await certificateTemplate.remove()
+        response.send({message: 'Certificate Template deleted successfully!'})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
 router.patch('/certificate/linkedEvent/:templateId/:eventId', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.templateId)
