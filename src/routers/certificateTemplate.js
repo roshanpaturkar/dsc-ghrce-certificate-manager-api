@@ -44,6 +44,10 @@ router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.sing
 
 router.post('/certificate/template', apiKey, auth, admin, async (request, response) => {
     try {
+        const certificateTemplateImage = await CertificateTemplateImage.findById(request.body.certificateTemplateImageId)
+        if (!certificateTemplateImage) {
+            return response.status(404).send('Invalid certificate template image ID!')
+        }
         const certificateTemplate = new CertificateTemplate(request.body)
         const data = await certificateTemplate.save()
         response.send({id: data.id, message: 'Certificate Template created successfully!'})

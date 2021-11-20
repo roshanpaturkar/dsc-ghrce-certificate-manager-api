@@ -63,7 +63,7 @@ const certificateTemplateSchema = mongoose.Schema({
             }
         }
     },
-    certificateTemplateId: {
+    certificateTemplateImageId: {
         type: String,
         required: true,
         trim: true
