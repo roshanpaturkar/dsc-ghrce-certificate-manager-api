@@ -1,0 +1,87 @@
+const express = require('express')
+const multer = require('multer')
+const sharp = require('sharp')
+
+const apiKey = require('../middleware/apiKey')
+
+const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
+const CertificateTemplateImage = require('../models/certificateTemplateImage')
+const CertificateTemplate = require('../models/certificateTemplate')
+const Event = require('../models/event')
+const Lead = require('../models/lead')
+
+const router = new express.Router()
+
+const upload = multer ({
+        limits: {
+            fileSize: 400000
+        },
+        fileFilter (request, file, callback) {
+            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+                return callback(new Error ('Please upload an image'))
+            }
+            callback(undefined, true)
+        }
+    })
+
+router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.single('certificateTemplateImage'), async (request, response) => {
+        try {
+        const buffer = await sharp(request.file.buffer).png().toBuffer()
+        request.certificateTemplateImage = new CertificateTemplateImage({
+            certificateTemplateImage: buffer
+        })
+    } catch (error) {
+        console.log(error);
+        response.status(400).send({ error: 'Image data not found!'})
+    }
+    const data = await request.certificateTemplateImage.save()
+    response.send({id: data.id, message: 'Certificate Template Image uploaded successfully!'})
+}, (error, request, response, next) => {
+    console.log(error);
+    response.status(400).send({ error: error.message })
+})
+
+router.post('/certificate/template', apiKey, auth, admin, async (request, response) => {
+    try {
+        const certificateTemplate = new CertificateTemplate(request.body)
+        const data = await certificateTemplate.save()
+        response.send({id: data.id, message: 'Certificate Template created successfully!'})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
+router.patch('/certificate/linkedEvent/:templateId/:eventId', apiKey, auth, admin, async (request, response) => {
+    try {
+        const certificateTemplate = await CertificateTemplate.findById(request.params.templateId)
+        const event = await Event.findOne({eventID: request.params.eventId})
+        if (!certificateTemplate || !event) {
+            return response.status(404).send({ error: 'Invalid Certificate Template ID or Event ID!'})
+        }
+        !certificateTemplate.linkedEvent.includes(request.params.eventId)? certificateTemplate.linkedEvent.push(request.params.eventId): certificateTemplate.linkedEvent
+        await certificateTemplate.save()
+        response.send({message: 'Certificate Template linked to event successfully!'})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
+
+router.get('/certificate/metadataStatus/:eventId', apiKey, auth, admin, async (request, response) => {
+    try {
+        const certificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
+        const lead = await Lead.findOne({'events.eventID': request.params.eventId})
+        response.send({
+            certificateOK: certificateTemplate? true: false,
+            leadOK: lead? true: false
+        })
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
+module.exports = router

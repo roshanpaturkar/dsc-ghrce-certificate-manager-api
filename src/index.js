@@ -11,6 +11,7 @@ const rejectPoolRouter = require('./routers/rejectPool')
 const certificateTypeRouter = require('./routers/certificateType')
 const otpRouter = require('./routers/otp')
 const leadRouter = require('./routers/lead')
+const certificateTemplate = require('./routers/certificateTemplate')
 
 const app = express()
 const port = process.env.PORT
@@ -29,6 +30,7 @@ app.use(rejectPoolRouter)
 app.use(certificateTypeRouter)
 app.use(otpRouter)
 app.use(leadRouter)
+app.use(certificateTemplate)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
