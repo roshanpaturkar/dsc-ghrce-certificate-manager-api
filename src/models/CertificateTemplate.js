@@ -116,5 +116,5 @@ certificateTemplateSchema.statics.getCertificateTemplateResponse = (certificateT
     }
 }
 
-const CertificateTemplate = mongoose.model('certificateTemplate', certificateTemplateSchema)
+const CertificateTemplate = mongoose.model('CertificateTemplate', certificateTemplateSchema)
 module.exports = CertificateTemplate
