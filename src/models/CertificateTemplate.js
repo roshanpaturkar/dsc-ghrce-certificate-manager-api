@@ -77,5 +77,44 @@ const certificateTemplateSchema = mongoose.Schema({
     timestamps: true
 })
 
+certificateTemplateSchema.statics.getEventResponse = (event) => {
+    return {
+        eventID: event.eventID,
+        eventName: event.eventName,
+        description: event.description,
+        speakerName: event.speakerName,
+        eventDate: event.eventDate,
+        certificateContent: event.certificateContent,
+        certificateTypeCode: event.certificateTypeCode,
+        certificateType: event.certificateType,
+        certificateIssueDate: event.certificateIssueDate
+    }
+}
+
+certificateTemplateSchema.statics.getCertificateResponse = (certificate) => {
+    return {
+        certificateID: certificate.certificateID,
+        eventID: certificate.eventID,
+        name: certificate.name,
+        email: certificate.email
+    }
+}
+
+certificateTemplateSchema.statics.getLeadResponse = (lead) => {
+    return {
+        name: lead.name,
+        email: lead.email,
+        mobile: lead.mobile,
+        leadTenure: lead.leadTenure,
+    }
+}
+
+certificateTemplateSchema.statics.getCertificateTemplateResponse = (certificateTemplate, certificateTemplateImage) => {
+    return {
+        coordinates: certificateTemplate.coordinates,
+        certificateTemplateImage: certificateTemplateImage.certificateTemplateImage,
+    }
+}
+
 const CertificateTemplate = mongoose.model('certificateTemplate', certificateTemplateSchema)
 module.exports = CertificateTemplate

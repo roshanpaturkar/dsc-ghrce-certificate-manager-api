@@ -8,7 +8,7 @@ const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
 
 const CertificateTemplateImage = require('../models/certificateTemplateImage')
-const CertificateTemplate = require('../models/CertificateTemplate')
+const CertificateTemplate = require('../models/certificateTemplate')
 const Event = require('../models/event')
 const Lead = require('../models/lead')
 
@@ -28,7 +28,7 @@ const upload = multer ({
 
 router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.single('certificateTemplateImage'), async (request, response) => {
         try {
-        const buffer = await sharp(request.file.buffer).png().toBuffer()
+        const buffer = await sharp(request.file.buffer).toBuffer()
         request.certificateTemplateImage = new CertificateTemplateImage({
             certificateTemplateImage: buffer
         })
@@ -41,6 +41,21 @@ router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.sing
 }, (error, request, response, next) => {
     console.log(error);
     response.status(400).send({ error: error.message })
+})
+
+router.get('/certificate/templateImage/:id', apiKey, async (request, response) => {
+    try {
+        const certificateTemplateImage = await CertificateTemplateImage.findById(request.params.id)
+
+        if (!certificateTemplateImage.certificateTemplateImage) {
+            throw new Error()
+        }
+        response.set('Content-Type', 'image/png')
+        response.send(certificateTemplateImage.certificateTemplateImage)
+    } catch (error) {
+        console.log(error);
+        response.status(404).send()
+    }
 })
 
 router.post('/certificate/template', apiKey, auth, admin, async (request, response) => {
