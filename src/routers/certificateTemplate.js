@@ -6,8 +6,7 @@ const apiKey = require('../middleware/apiKey')
 
 const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
-// const User = require('../models/CertificateTemplate')
-// const CertificateTemplate = require('../models/certificateTemplate')
+
 const CertificateTemplateImage = require('../models/certificateTemplateImage')
 const CertificateTemplate = require('../models/CertificateTemplate')
 const Event = require('../models/event')
