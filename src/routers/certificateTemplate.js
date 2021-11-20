@@ -46,7 +46,7 @@ router.post('/certificate/template', apiKey, auth, admin, async (request, respon
     try {
         const certificateTemplateImage = await CertificateTemplateImage.findById(request.body.certificateTemplateImageId)
         if (!certificateTemplateImage) {
-            return response.status(404).send('Invalid certificate template image ID!')
+            return response.status(404).send({error: 'Invalid certificate template image ID!'})
         }
         const certificateTemplate = new CertificateTemplate(request.body)
         const data = await certificateTemplate.save()
@@ -63,6 +63,10 @@ router.patch('/certificate/linkedEvent/:templateId/:eventId', apiKey, auth, admi
         const event = await Event.findOne({eventID: request.params.eventId})
         if (!certificateTemplate || !event) {
             return response.status(404).send({ error: 'Invalid Certificate Template ID or Event ID!'})
+        }
+        const checkCertificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
+        if (checkCertificateTemplate) {
+            return response.status(400).send({ error: 'Event already has a certificate template!'})
         }
         !certificateTemplate.linkedEvent.includes(request.params.eventId)? certificateTemplate.linkedEvent.push(request.params.eventId): certificateTemplate.linkedEvent
         await certificateTemplate.save()
