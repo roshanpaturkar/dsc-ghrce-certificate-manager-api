@@ -9,6 +9,7 @@ const admin = require('../middleware/admin')
 // const User = require('../models/CertificateTemplate')
 // const CertificateTemplate = require('../models/certificateTemplate')
 const CertificateTemplateImage = require('../models/certificateTemplateImage')
+const CertificateTemplate = require('../models/CertificateTemplate')
 const Event = require('../models/event')
 const Lead = require('../models/lead')
 
