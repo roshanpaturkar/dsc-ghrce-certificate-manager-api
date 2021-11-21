@@ -222,7 +222,7 @@ poolSchema.statics.getPoolData = async (rawData, userData) => {
     certificateContent: rawData[0].certificateContent,
     certificateTypeCode: certificateType.typeCode,
     certificateType: certificateType.certificateType,
-   publishedBy: userData
+    publishedBy: userData
   }
   const certificates = []
   rawData.forEach((value) => {
