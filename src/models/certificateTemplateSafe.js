@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const certificateTemplateSchema = mongoose.Schema({
-    templateImage: {
+    templateName: {
         type: String,
         required: true,
         trim: true
@@ -116,7 +116,7 @@ certificateTemplateSchema.statics.getLeadResponse = (lead) => {
 
 certificateTemplateSchema.statics.getCertificateTemplateResponse = (certificateTemplate, certificateTemplateImage) => {
     return {
-        templateImage: certificateTemplate.templateImage,
+        templateName: certificateTemplate.templateName,
         coordinates: certificateTemplate.coordinates,
         certificateTemplateImage: {
             binaryData: certificateTemplateImage.certificateTemplateImage,
