@@ -76,9 +76,12 @@ router.post('/certificate/template', apiKey, auth, admin, async (request, respon
 router.get('/certificate/template/:id', apiKey, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.id)
+        if (!certificateTemplate) {
+            return response.status(404).send({error: 'Invalid certificate template ID!'})
+        } 
         const certificateTemplateImage = await CertificateTemplateImage.findById(certificateTemplate.certificateTemplateImageId)
-        if (!certificateTemplate || !certificateTemplateImage) {
-            return response.status(404).send({error: 'Invalid certificate template or certificate template image ID!'})
+        if (!certificateTemplateImage) {
+            return response.status(404).send({error: 'Invalid certificate template image ID!'})
         }
         response.send({certificateTemplate, certificateTemplateImage: {
             binaryData: certificateTemplateImage.certificateTemplateImage,
