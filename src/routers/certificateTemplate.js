@@ -43,6 +43,24 @@ router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.sing
     response.status(400).send({ error: error.message })
 })
 
+router.delete('/certificate/templateImage/:id', apiKey, auth, admin, async (request, response) => {
+    try {
+        const certificateTemplateImage = await CertificateTemplateImage.findById(request.params.id)
+        if (!certificateTemplateImage) {
+            return response.status(404).send({ error: 'Certificate Template Image not found!'})
+        }
+        const certificateTemplate = await CertificateTemplate.findOne({certificateTemplateImageId: request.params.id})
+        if (certificateTemplate) {
+            return response.status(400).send({ error: 'Certificate Template Image is in use!'})
+        }
+        await certificateTemplateImage.remove()
+        response.send({message: 'Certificate Template Image deleted successfully!'})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send({ error: error.message })
+    }
+})
+
 router.get('/certificate/templateImage/:id', apiKey, async (request, response) => {
     try {
         const certificateTemplateImage = await CertificateTemplateImage.findById(request.params.id)
