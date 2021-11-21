@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const certificateTemplateSchema = mongoose.Schema({
+    templateImage: {
+        type: String,
+        required: true,
+        trim: true
+    },
     coordinates: {
         userName: {
             x: {
@@ -111,8 +116,12 @@ certificateTemplateSchema.statics.getLeadResponse = (lead) => {
 
 certificateTemplateSchema.statics.getCertificateTemplateResponse = (certificateTemplate, certificateTemplateImage) => {
     return {
+        templateImage: certificateTemplate.templateImage,
         coordinates: certificateTemplate.coordinates,
-        certificateTemplateImage: certificateTemplateImage.certificateTemplateImage,
+        certificateTemplateImage: {
+            binaryData: certificateTemplateImage.certificateTemplateImage,
+            uri: `/certificate/templateImage/${certificateTemplateImage.id}`
+        },
     }
 }
 
