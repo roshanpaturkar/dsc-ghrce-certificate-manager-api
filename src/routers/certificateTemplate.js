@@ -73,6 +73,64 @@ router.post('/certificate/template', apiKey, auth, admin, async (request, respon
     }
 })
 
+router.get('/certificate/template/:id', apiKey, async (request, response) => {
+    try {
+        const certificateTemplate = await CertificateTemplate.findById(request.params.id)
+        const certificateTemplateImage = await CertificateTemplateImage.findById(certificateTemplate.certificateTemplateImageId)
+        if (!certificateTemplate || !certificateTemplateImage) {
+            return response.status(404).send({error: 'Invalid certificate template or certificate template image ID!'})
+        }
+        response.send({certificateTemplate, certificateTemplateImage: {
+            binaryData: certificateTemplateImage.certificateTemplateImage,
+            uri: `/certificate/templateImage/${certificateTemplateImage.id}`
+        }})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
+router.get('/certificate/template', apiKey, async (request, response) => {
+    try {
+        const certificateTemplates = await CertificateTemplate.find()
+        const certificateTemplateImages = await CertificateTemplateImage.find()
+        if (request.query.all === 'true') {
+            const certificateTemplateImageMap = {}
+            certificateTemplateImages.forEach(certificateTemplateImage => {
+                certificateTemplateImageMap[certificateTemplateImage.id] = {
+                    binaryData: certificateTemplateImage.certificateTemplateImage,
+                    uri: `/certificate/templateImage/${certificateTemplateImage.id}`
+                }
+            })
+            response.send({certificateTemplates, certificateTemplateImageMap})
+        } else {
+            const certificateTemplateArray = []
+            certificateTemplates.forEach(certificateTemplate => {
+                certificateTemplateArray.push({
+                    templateName: certificateTemplate.templateName,
+                    createdAt: certificateTemplate.createdAt,
+                    certificateTemplateImage: {
+                        id: certificateTemplate.certificateTemplateImageId,
+                        uri: `/certificate/templateImage/${certificateTemplate.certificateTemplateImageId}`
+                    }
+                })
+            })
+            response.send(certificateTemplateArray)
+        }
+        const certificateTemplateImageMap = {}
+        certificateTemplateImages.forEach(certificateTemplateImage => {
+            certificateTemplateImageMap[certificateTemplateImage.id] = {
+                binaryData: certificateTemplateImage.certificateTemplateImage,
+                uri: `/certificate/templateImage/${certificateTemplateImage.id}`
+            }
+        })
+        response.send({certificateTemplates, certificateTemplateImageMap})
+    } catch (error) {
+        console.log(error);
+        response.status(400).send(error)
+    }
+})
+
 router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.id)
