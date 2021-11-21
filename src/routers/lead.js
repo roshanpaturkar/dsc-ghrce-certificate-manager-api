@@ -34,7 +34,7 @@ router.get('/leads', apiKey, auth, admin, async (request, response) => {
     }
 })
 
-router.put('/leads/link/:eventID/:leadID', apiKey, auth, admin, async (request, response) => {
+router.patch('/leads/link/:eventID/:leadID', apiKey, auth, admin, async (request, response) => {
     try {
         const eventID = request.params.eventID
         const leadID = request.params.leadID
