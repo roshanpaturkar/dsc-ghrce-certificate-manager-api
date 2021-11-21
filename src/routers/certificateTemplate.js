@@ -107,6 +107,7 @@ router.get('/certificate/template', apiKey, async (request, response) => {
             const certificateTemplateArray = []
             certificateTemplates.forEach(certificateTemplate => {
                 certificateTemplateArray.push({
+                    id: certificateTemplate.id,
                     templateName: certificateTemplate.templateName,
                     createdAt: certificateTemplate.createdAt,
                     certificateTemplateImage: {
