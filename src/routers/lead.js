@@ -41,7 +41,7 @@ router.patch('/leads/link/:eventID/:leadID', apiKey, auth, admin, async (request
         if (!eventID || !leadID) {
             return response.status(400).send('eventID or leadID is missing!')
         }
-        const pool = await Pool.findOne({eventID: eventID})
+        const pool = await Pool.findOne({eventID: eventID},{_id: 0, eventID: 1, verified: 1, eventName: 1})
         const lead = await Lead.findById(leadID)
         if (!pool) {
             return response.status(400).send(`Event with eventId '${eventID}' is not exists!`)
