@@ -62,16 +62,16 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
             return response.status(404).send({ error: 'Invalid Event ID!' })
         }
 
+        if (pool.verified === true) {
+            return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
+        }
+
         if (!certificateTemplate || !lead) {
             return response.status(400).send({ error: 'Need to linked lead information and certificate template before verify!' })
         }
 
         if (pool.rejected === true) {
             return response.status(406).send({ error: 'Can not verify! This data is rejected by ' + pool.rejectedBy.name })
-        }
-
-        if (pool.verified === true) {
-            return response.status(208).send({ error: 'This data is already verified by ' + pool.verifiedBy.name })
         }
 
         const issueDate = certificateIssueDate()
