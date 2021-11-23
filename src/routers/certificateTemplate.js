@@ -187,7 +187,6 @@ router.patch('/certificate/linkedEvent/:templateId/:eventId', apiKey, auth, admi
     }
 })
 
-
 router.get('/certificate/metadataStatus/:eventId', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
