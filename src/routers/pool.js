@@ -9,6 +9,8 @@ const Pool = require('../models/pool')
 const RejectPool = require('../models/rejectPool')
 const Event = require('../models/event')
 const Certificates = require('../models/certificate')
+const Lead = require('../models/lead')
+const CertificateTemplate = require('../models/certificateTemplateSafe')
 const auth = require('../middleware/auth')
 
 const certificateIssueDate = require('../utility/getDate')
@@ -53,9 +55,15 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
 
     try {
         var pool = await Pool.findOne({eventID: request.params.eventID})
+        const certificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
+        const lead = await Lead.findOne({'events.eventID': request.params.eventId})
 
         if (!pool) {
             return response.status(404).send({ error: 'Invalid Event ID!' })
+        }
+
+        if (!certificateTemplate || !lead) {
+            return response.status(400).send({ error: 'Need to linked lead information and certificate template before verify!' })
         }
 
         if (pool.rejected === true) {
