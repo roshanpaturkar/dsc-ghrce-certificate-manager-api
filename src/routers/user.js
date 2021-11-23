@@ -174,7 +174,7 @@ router.post('/users/me/avatar', apiKey, auth, upload.single('avatar'), async (re
         request.user.avatar = buffer
     } catch (error) {
         console.log(error);
-        response.status(400).send({ error: 'Image data not found!'})
+        return response.status(400).send({ error: 'Image data not found!'})
     }
     await request.user.save()
     response.send()
@@ -187,7 +187,7 @@ router.delete('/users/me/avatar', apiKey, auth, async (request, response) => {
     try {
 
         if (!request.user.avatar) {
-            response.status(404).send()
+            return response.status(404).send()
         }
 
         request.user.avatar = undefined

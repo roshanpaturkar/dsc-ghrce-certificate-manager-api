@@ -27,7 +27,7 @@ const upload = multer ({
     })
 
 router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.single('certificateTemplateImage'), async (request, response) => {
-        try {
+    try {
         const buffer = await sharp(request.file.buffer).toBuffer()
         request.certificateTemplateImage = new CertificateTemplateImage({
             certificateTemplateImage: buffer
