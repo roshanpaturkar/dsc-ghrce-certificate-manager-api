@@ -34,7 +34,7 @@ router.post('/certificate/uploadTemplateImage', apiKey, auth, admin, upload.sing
         })
     } catch (error) {
         console.log(error);
-        response.status(400).send({ error: 'Image data not found!'})
+        return response.status(400).send({ error: 'Image data not found!'})
     }
     const data = await request.certificateTemplateImage.save()
     response.send({id: data.id, message: 'Certificate Template Image uploaded successfully!'})
@@ -139,14 +139,6 @@ router.get('/certificate/template', apiKey, async (request, response) => {
             })
             response.send(certificateTemplateArray)
         }
-        const certificateTemplateImageMap = {}
-        certificateTemplateImages.forEach(certificateTemplateImage => {
-            certificateTemplateImageMap[certificateTemplateImage.id] = {
-                binaryData: certificateTemplateImage.certificateTemplateImage,
-                uri: `/certificate/templateImage/${certificateTemplateImage.id}`
-            }
-        })
-        response.send({certificateTemplates, certificateTemplateImageMap})
     } catch (error) {
         console.log(error);
         response.status(400).send(error)
