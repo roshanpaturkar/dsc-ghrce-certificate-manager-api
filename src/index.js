@@ -13,6 +13,8 @@ const otpRouter = require('./routers/otp')
 const leadRouter = require('./routers/lead')
 const certificateTemplate = require('./routers/certificateTemplate')
 
+const sendEventData = require('./routers/extensions_b2b/sendEventData')
+
 const app = express()
 const port = process.env.PORT
 
@@ -31,6 +33,7 @@ app.use(certificateTypeRouter)
 app.use(otpRouter)
 app.use(leadRouter)
 app.use(certificateTemplate)
+app.use(sendEventData)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
