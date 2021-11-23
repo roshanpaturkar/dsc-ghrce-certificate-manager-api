@@ -9,7 +9,7 @@ const admin = require('../middleware/admin')
 
 const CertificateTemplate = require('../models/certificateTemplateSafe')
 const CertificateTemplateImage = require('../models/certificateTemplateImage')
-const Event = require('../models/event')
+const Pool = require('../models/pool')
 const Lead = require('../models/lead')
 
 const router = new express.Router()
@@ -165,8 +165,13 @@ router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, 
 router.patch('/certificate/linkedEvent/:templateId/:eventId', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.templateId)
-        const event = await Event.findOne({eventID: request.params.eventId})
-        if (!certificateTemplate || !event) {
+        const pool = await Pool.findOne({eventID: request.params.eventId}, {_id: 0, eventID: 1, verified: 1})
+
+        if (pool.verified) {
+            return response.status(400).send({error: 'Event is already verified!'})
+        }
+
+        if (!certificateTemplate || !pool) {
             return response.status(404).send({ error: 'Invalid Certificate Template ID or Event ID!'})
         }
         const checkCertificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
