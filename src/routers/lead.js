@@ -49,6 +49,10 @@ router.patch('/leads/link/:eventID/:leadID', apiKey, auth, admin, async (request
         if (!lead) {
             return response.status(400).send(`Lead with ID '${leadID}' is not found!`)
         }
+        if (pool.verified) {
+            return response.status(400).send(`Event with eventId '${eventID}' is already verified!`)
+        }
+
         const eventData = {
             eventID: eventID,
             eventName: pool.eventName
