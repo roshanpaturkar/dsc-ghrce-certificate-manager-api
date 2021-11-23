@@ -61,7 +61,7 @@ router.delete('/certificate/templateImage/:id', apiKey, auth, admin, async (requ
     }
 })
 
-router.get('/certificate/templateImage/:id', apiKey, async (request, response) => {
+router.get('/certificate/templateImage/:id', async (request, response) => {
     try {
         const certificateTemplateImage = await CertificateTemplateImage.findById(request.params.id)
 
