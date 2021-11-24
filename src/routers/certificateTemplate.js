@@ -91,7 +91,7 @@ router.post('/certificate/template', apiKey, auth, admin, async (request, respon
     }
 })
 
-router.get('/certificate/template/:id', apiKey, async (request, response) => {
+router.get('/certificate/template/:id', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.id)
         if (!certificateTemplate) {
@@ -111,7 +111,7 @@ router.get('/certificate/template/:id', apiKey, async (request, response) => {
     }
 })
 
-router.get('/certificate/template', auth, apiKey, async (request, response) => {
+router.get('/certificate/template', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplates = await CertificateTemplate.find().sort( { "_id": -1 })
         if (request.query.all === 'true') {
