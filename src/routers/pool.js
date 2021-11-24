@@ -170,11 +170,11 @@ router.get('/pool', apiKey, auth, async (request, response) => {
 
     try {
         if (request.query.verified === 'true') {
-            pools = await Pool.find({ verified: true })
+            pools = await Pool.find({ verified: true }).sort( { "_id": -1 })
         } else if (request.query.verified === 'false') {
-            pools = await Pool.find({ verified: false })
+            pools = await Pool.find({ verified: false }).sort( { "_id": -1 })
         } else {
-            pools = await Pool.find()
+            pools = await Pool.find().sort( { "_id": -1 })
         }
 
         if (!pools) {
