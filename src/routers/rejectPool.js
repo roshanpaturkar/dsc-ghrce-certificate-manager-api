@@ -38,7 +38,7 @@ router.delete('/rollback/rejectPool/:eventID', apiKey, auth, admin, async (reque
 router.get('/rejectPool', apiKey, auth, admin, async (request, response) => {
     try {
         
-        const rejectPool = await RejectPool.find()
+        const rejectPool = await RejectPool.find().sort( { "_id": -1 })
 
         if (!rejectPool) {
             return response.status(404).send({ error: 'Data not found!' })
