@@ -204,7 +204,7 @@ const poolSchema = mongoose.Schema({
 
 poolSchema.statics.getPoolData = async (rawData, userData) => {
 
-  certificateTypeCode = rawData[0].certificateTypeCode
+  certificateTypeCode = rawData[0].certificateTypeCode === ""? "NA": rawData[0].certificateTypeCode;
 
   const certificateType = await CertificateType.findOne({ typeCode: certificateTypeCode.toUpperCase() })
 
