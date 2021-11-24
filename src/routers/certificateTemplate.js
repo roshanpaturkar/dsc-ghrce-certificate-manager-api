@@ -114,16 +114,12 @@ router.get('/certificate/template/:id', apiKey, async (request, response) => {
 router.get('/certificate/template', apiKey, async (request, response) => {
     try {
         const certificateTemplates = await CertificateTemplate.find()
-        const certificateTemplateImages = await CertificateTemplateImage.find()
         if (request.query.all === 'true') {
-            const certificateTemplateImageMap = {}
-            certificateTemplateImages.forEach(certificateTemplateImage => {
-                certificateTemplateImageMap[certificateTemplateImage.id] = {
-                    binaryData: certificateTemplateImage.certificateTemplateImage,
-                    uri: `/certificate/templateImage/${certificateTemplateImage.id}`
-                }
+            const certificateTemplatesArray = []
+            certificateTemplates.forEach(certificateTemplate => {
+                certificateTemplatesArray.push(CertificateTemplate.getAllCertificateTemplateResponse(certificateTemplate))
             })
-            response.send({certificateTemplates, certificateTemplateImageMap})
+            response.send(certificateTemplatesArray)
         } else {
             const certificateTemplateArray = []
             certificateTemplates.forEach(certificateTemplate => {

@@ -82,6 +82,17 @@ const certificateTemplateSchema = mongoose.Schema({
     timestamps: true
 })
 
+certificateTemplateSchema.statics.getAllCertificateTemplateResponse = (certificateTemplate) => {
+    return {
+        id: certificateTemplate.id,
+        templateName: certificateTemplate.templateName,
+        coordinates: certificateTemplate.coordinates,
+        certificateTemplateImage: `/certificate/templateImage/${certificateTemplate.certificateTemplateImageId}`,
+        createdAt: certificateTemplate.createdAt,
+        updatedAt: certificateTemplate.updatedAt
+    }
+}
+
 certificateTemplateSchema.statics.getEventResponse = (event) => {
     return {
         eventID: event.eventID,
