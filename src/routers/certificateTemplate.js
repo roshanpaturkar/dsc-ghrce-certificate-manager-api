@@ -113,7 +113,7 @@ router.get('/certificate/template/:id', apiKey, async (request, response) => {
 
 router.get('/certificate/template', apiKey, async (request, response) => {
     try {
-        const certificateTemplates = await CertificateTemplate.find()
+        const certificateTemplates = await CertificateTemplate.find().sort( { "_id": -1 })
         if (request.query.all === 'true') {
             const certificateTemplatesArray = []
             certificateTemplates.forEach(certificateTemplate => {
