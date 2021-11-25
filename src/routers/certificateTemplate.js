@@ -65,14 +65,14 @@ router.get('/certificate/templateImage/:id', async (request, response) => {
     try {
         const certificateTemplateImage = await CertificateTemplateImage.findById(request.params.id)
 
-        if (!certificateTemplateImage.certificateTemplateImage) {
-            throw new Error()
+        if (!certificateTemplateImage) {
+            return response.status(404).send({ error: 'Certificate Template Image not found!'})
         }
         response.set('Content-Type', 'image/png')
         response.send(certificateTemplateImage.certificateTemplateImage)
     } catch (error) {
         console.log(error);
-        response.status(404).send()
+        response.status(500).send({ error: 'Internal server error!'})
     }
 })
 
@@ -151,6 +151,10 @@ router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, 
             return response.status(400).send({error: 'Certificate template is linked to an event!'})
         }
         await certificateTemplate.remove()
+        const certificateTemplateImageCheck = await CertificateTemplate.findOne({certificateTemplateImageId: certificateTemplate.certificateTemplateImageId})
+        if (!certificateTemplateImageCheck) {
+            await CertificateTemplateImage.findOneAndDelete(certificateTemplate.certificateTemplateImageId)
+        }
         response.send({message: 'Certificate Template deleted successfully!'})
     } catch (error) {
         console.log(error);
