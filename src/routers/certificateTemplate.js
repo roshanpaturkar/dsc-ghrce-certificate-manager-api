@@ -144,6 +144,7 @@ router.get('/certificate/template', apiKey, auth, admin, async (request, respons
 router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, response) => {
     try {
         const certificateTemplate = await CertificateTemplate.findById(request.params.id)
+        const templateImageId = certificateTemplate.certificateTemplateImageId
         if (!certificateTemplate) {
             return response.status(404).send({error: 'Invalid certificate template ID!'})
         }
@@ -151,9 +152,10 @@ router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, 
             return response.status(400).send({error: 'Certificate template is linked to an event!'})
         }
         await certificateTemplate.remove()
-        const certificateTemplateImageCheck = await CertificateTemplate.findOne({certificateTemplateImageId: certificateTemplate.certificateTemplateImageId})
+        const certificateTemplateImageCheck = await CertificateTemplate.findOne({certificateTemplateImageId: templateImageId})
         if (!certificateTemplateImageCheck) {
-            await CertificateTemplateImage.findOneAndDelete(certificateTemplate.certificateTemplateImageId)
+            console.log(certificateTemplate.certificateTemplateImageId);
+            await CertificateTemplateImage.findOneAndDelete(templateImageId)
         }
         response.send({message: 'Certificate Template deleted successfully!'})
     } catch (error) {
