@@ -155,7 +155,7 @@ router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, 
         const certificateTemplateImageCheck = await CertificateTemplate.findOne({certificateTemplateImageId: templateImageId})
         if (!certificateTemplateImageCheck) {
             console.log(certificateTemplate.certificateTemplateImageId);
-            const image = await CertificateTemplateImage.find(templateImageId)
+            const image = await CertificateTemplateImage.findById(templateImageId)
             const data = await image.remove()
             console.log(data);
         }
