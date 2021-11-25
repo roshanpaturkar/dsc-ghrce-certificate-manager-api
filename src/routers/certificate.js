@@ -67,7 +67,7 @@ router.get('/certificates/:eventId/:email', apiKey, async (request, response) =>
 })
 
 router.get('/sendCertificate/:id', apiKey, auth, admin, async (request, response) => {
-    response.send({message: `Send certificate support removed!`})
+    response.send({message: `Send certificate support is removed!`})
     // try {
     //     const certificate = await Certificate.findOne({ certificateID: request.params.id })
     //     const event = await Event.findOne({ eventID: certificate.eventID })
