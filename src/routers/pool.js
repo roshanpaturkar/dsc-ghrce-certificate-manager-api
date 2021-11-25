@@ -14,7 +14,6 @@ const CertificateTemplate = require('../models/certificateTemplateSafe')
 const auth = require('../middleware/auth')
 
 const certificateIssueDate = require('../utility/getDate')
-const sendCertificate = require('../emails/sendCertificate')
 
 const router = new express.Router()
 
@@ -89,10 +88,6 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
         await event.save()
         await Certificates.insertMany(certificates)
         await pool.save()
-
-        certificates.forEach(certificate => {
-            sendCertificate(certificate, eventName)
-        });
         
         response.status(201).send()
     } catch (error) {

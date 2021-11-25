@@ -8,7 +8,6 @@ const Certificate = require('../models/certificate')
 const Lead = require('../models/lead')
 const CertificateTemplate = require('../models/certificateTemplateSafe')
 const CertificateTemplateImage = require('../models/certificateTemplateImage')
-const sendCertificate = require('../emails/sendCertificate')
 const admin = require('../middleware/admin')
 
 const router = new express.Router()
@@ -67,17 +66,17 @@ router.get('/certificates/:eventId/:email', apiKey, async (request, response) =>
     }
 })
 
-router.get('/sendCertificate/:id', apiKey, auth, admin, async (request, response) => {
-    try {
-        const certificate = await Certificate.findOne({ certificateID: request.params.id })
-        const event = await Event.findOne({ eventID: certificate.eventID })
-        sendCertificate(certificate, event.eventName)
+// router.get('/sendCertificate/:id', apiKey, auth, admin, async (request, response) => {
+//     try {
+//         const certificate = await Certificate.findOne({ certificateID: request.params.id })
+//         const event = await Event.findOne({ eventID: certificate.eventID })
+//         sendCertificate(certificate, event.eventName)
 
-        response.send({message: `Certificate sent to ${certificate.name} on ${certificate.email}`})
-    } catch (error) {
-        console.log(error);
-        response.status(404).send({ error: 'Invalid Certificate ID!'})
-    }
-})
+//         response.send({message: `Certificate sent to ${certificate.name} on ${certificate.email}`})
+//     } catch (error) {
+//         console.log(error);
+//         response.status(404).send({ error: 'Invalid Certificate ID!'})
+//     }
+// })
 
 module.exports = router
