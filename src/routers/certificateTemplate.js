@@ -155,7 +155,8 @@ router.delete('/certificate/template/:id', apiKey, auth, admin, async (request, 
         const certificateTemplateImageCheck = await CertificateTemplate.findOne({certificateTemplateImageId: templateImageId})
         if (!certificateTemplateImageCheck) {
             console.log(certificateTemplate.certificateTemplateImageId);
-            const data = await CertificateTemplateImage.findOneAndDelete(templateImageId)
+            const image = await CertificateTemplateImage.find(templateImageId)
+            const data = await image.remove()
             console.log(data);
         }
         response.send({message: 'Certificate Template deleted successfully!'})
