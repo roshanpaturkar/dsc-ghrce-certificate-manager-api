@@ -3,7 +3,7 @@ const cryptoRandomString = require('crypto-random-string')
 
 const Otp = require('../models/otp')
 const User = require('../models/user')
-const sendOtp = require('../emails/sendOtp')
+const sendEmail = require('../emails/email')
 
 const passwordResetAuth = require('../middleware/passwordResetAuth')
 const apiKey = require('../middleware/apiKey')
@@ -34,7 +34,8 @@ router.post('/forgetPassword', apiKey, async (request, response) => {
         })
 
         await otp.save()
-        await sendOtp(user.name, otp)
+        const html_body = `<b>Hello ${user.name}</b><br><br>Your OTP is <b>${otp.otp}</b>. <i>Be quick, it will be expired on ${otp.expiryDateTime.toLocaleString()}</i>.<br>Thank You! <br><br><b>Best</b> <br><i>Server Admin</i>`
+        sendEmail([request.body.email], undefined, undefined,`Hello ${user.name} | OTP 👨‍💻 | noreply`, undefined, html_body)
 
         response.status(201).send({ message: 'OTP is sent to your registered email.' })
     } catch (error) {
