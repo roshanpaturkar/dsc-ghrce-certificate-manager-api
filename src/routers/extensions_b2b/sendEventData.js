@@ -10,6 +10,7 @@ const router = new express.Router()
 router.post('/b2b/certificate/manager/sendEventData', apiKey, async (request, response) => {
     try {
         request.body.publishedBy.userID = '61a8e841d9a7c200161be3d2'
+        request.body.certificateTypeCode = 'NA'
 
         certificates = []
         request.body.attendeesList.forEach(attendee => {
