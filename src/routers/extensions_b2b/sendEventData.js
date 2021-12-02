@@ -11,6 +11,7 @@ router.post('/b2b/certificate/manager/sendEventData', apiKey, async (request, re
     try {
         request.body.publishedBy.userID = '61a8e841d9a7c200161be3d2'
         request.body.certificateTypeCode = 'NA'
+        request.body.certificateType = 'NONE'
 
         certificates = []
         request.body.attendeesList.forEach(attendee => {
