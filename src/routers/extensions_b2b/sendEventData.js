@@ -31,7 +31,7 @@ router.post('/b2b/certificate/manager/sendEventData', apiKey, async (request, re
         response.status(500).send(error)
     }
 
-    response.send('Welcome to the DSC GHRCE Certificate Manager!')
+    response.send('Event data received at certificate server!')
 })
 
 module.exports = router
