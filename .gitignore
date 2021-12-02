@@ -3,7 +3,10 @@ config/
 *.log
 
 deploy.cmd
+deploy.sh
 open.cmd
 
 startRegistration.cmd
+startRegistration.sh
 stopRegistration.cmd
+stopRegistration.sh
