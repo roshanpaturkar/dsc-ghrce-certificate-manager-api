@@ -77,7 +77,11 @@ const certificateTemplateSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    }]
+    }],
+    extendedMetadata: {
+        type: Map,
+        default: {}
+    }
 }, {
     timestamps: true
 })
@@ -88,6 +92,7 @@ certificateTemplateSchema.statics.getAllCertificateTemplateResponse = (certifica
         templateName: certificateTemplate.templateName,
         coordinates: certificateTemplate.coordinates,
         certificateTemplateImage: `/certificate/templateImage/${certificateTemplate.certificateTemplateImageId}`,
+        extendedMetadata: certificateTemplate.extendedMetadata,
         createdAt: certificateTemplate.createdAt,
         updatedAt: certificateTemplate.updatedAt
     }

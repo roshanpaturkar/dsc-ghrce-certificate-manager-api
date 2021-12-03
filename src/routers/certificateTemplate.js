@@ -102,7 +102,6 @@ router.get('/certificate/template/:id', apiKey, auth, admin, async (request, res
             return response.status(404).send({error: 'Invalid certificate template image ID!'})
         }
         response.send({certificateTemplate, certificateTemplateImage: {
-            binaryData: certificateTemplateImage.certificateTemplateImage,
             uri: `/certificate/templateImage/${certificateTemplateImage.id}`
         }})
     } catch (error) {
