@@ -54,8 +54,8 @@ router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request,
 
     try {
         var pool = await Pool.findOne({eventID: request.params.eventID})
-        const certificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventId})
-        const lead = await Lead.findOne({'events.eventID': request.params.eventId})
+        const certificateTemplate = await CertificateTemplate.findOne({linkedEvent: request.params.eventID})
+        const lead = await Lead.findOne({'events.eventID': request.params.eventID})
 
         if (!pool) {
             return response.status(404).send({ error: 'Invalid Event ID!' })
