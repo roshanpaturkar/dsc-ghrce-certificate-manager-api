@@ -18,7 +18,11 @@ const sendEventData = require('./routers/extensions_b2b/sendEventData')
 const app = express()
 const port = process.env.PORT
 
-app.use(cors())
+var corsOptions = {
+  origin: 'https://dscghrcecertificates.web.app'
+}
+
+app.use(cors(corsOptions))
 
 app.get('/', apiKey, (request, response) => {
     response.send('Welcome to the DSC GHRCE Certificate Manager!')
