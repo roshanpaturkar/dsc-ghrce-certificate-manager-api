@@ -18,9 +18,17 @@ const sendEventData = require('./routers/extensions_b2b/sendEventData')
 const app = express()
 const port = process.env.PORT
 
+var whitelist = ['https://dscghrcecertificates.web.app']
 var corsOptions = {
-  origin: 'https://dscghrcecertificates.web.app'
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }
+ 
 
 app.use(cors(corsOptions))
 
