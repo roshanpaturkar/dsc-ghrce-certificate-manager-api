@@ -1,4 +1,6 @@
 const express = require('express')
+var cors = require('cors')
+const origin = require('../cors/origin')
 const multer = require('multer')
 const csv = require('csvtojson')
 
@@ -16,6 +18,8 @@ const auth = require('../middleware/auth')
 const certificateIssueDate = require('../utility/getDate')
 
 const router = new express.Router()
+
+router.use(cors(origin))
 
 const upload = multer({
         fileFilter (request, file, callback) {
