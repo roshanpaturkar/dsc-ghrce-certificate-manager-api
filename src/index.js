@@ -30,11 +30,11 @@ const port = process.env.PORT
 //   }
 // }
  
-var corsOptions = {
-  origin: ['https://dscghrcecertificates.web.app', '/\.dscghrcecertificates.web.app$/']
-}
+// var corsOptions = {
+//   origin: ['https://dscghrcecertificates.web.app', '/\.dscghrcecertificates.web.app$/']
+// }
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 
 // app.use(cors(origin))
 // app.use(cors())
