@@ -164,7 +164,7 @@ router.delete('/rollback/:eventID', apiKey, auth, admin, async (request, respons
     }
 })
 
-router.get('/pool', apiKey, auth, async (request, response) => {
+router.get('/pool', cors(origin), apiKey, auth, async (request, response) => {
     let pools = []
 
     try {
