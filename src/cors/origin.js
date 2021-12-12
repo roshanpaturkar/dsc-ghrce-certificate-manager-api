@@ -1,4 +1,4 @@
-var whitelist = ['https://dscghrcecertificates.web.app']
+var whitelist = ['https://dscghrcecertificates.web.app', ['/users/606618cf2e9642001526120c/avatar']]
 
 var corsOptions = {
   origin: function (origin, callback) {
