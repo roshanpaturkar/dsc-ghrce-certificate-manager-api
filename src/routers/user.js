@@ -215,7 +215,8 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
     }
 })
 
-router.get('/users/:id/avatar', cors(), async (request, response) => {
+router.get('/users/:id/avatar', async (request, response) => {
+    console.log(request);
     try {
         const user = await User.findById(request.params.id)
 
