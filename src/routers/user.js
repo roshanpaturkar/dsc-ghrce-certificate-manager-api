@@ -1,6 +1,4 @@
 const express = require('express')
-var cors = require('cors')
-const origin = require('../cors/origin')
 const multer = require('multer')
 const sharp = require('sharp')
 
@@ -63,7 +61,7 @@ router.post('/users/disable/:id/:status', apiKey, auth, admin, async (request, r
     }
 })
 
-router.post('/users/login', cors(origin), apiKey, async (request, response) => {
+router.post('/users/login', apiKey, async (request, response) => {
     try {
         const user = await User.findUserByCredentials(request.body.email, request.body.password)
 

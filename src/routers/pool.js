@@ -1,6 +1,4 @@
 const express = require('express')
-var cors = require('cors')
-const origin = require('../cors/origin')
 const multer = require('multer')
 const csv = require('csvtojson')
 
@@ -28,7 +26,7 @@ const upload = multer({
         }
     })
 
-router.post('/publishCertificates', cors(origin), apiKey, auth, upload.single('certificatesData'), async (request, response) => {
+router.post('/publishCertificates', apiKey, auth, upload.single('certificatesData'), async (request, response) => {
     const userData = {
         userID: request.user._id,
         name: request.user.name,
@@ -47,7 +45,7 @@ router.post('/publishCertificates', cors(origin), apiKey, auth, upload.single('c
     }
 })
 
-router.post('/verifyCertificates/:eventID', cors(origin), apiKey, auth, admin, async (request, response) => {
+router.post('/verifyCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const verifiedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -98,7 +96,7 @@ router.post('/verifyCertificates/:eventID', cors(origin), apiKey, auth, admin, a
     }
 })
 
-router.post('/rejectCertificates/:eventID', cors(origin), apiKey, auth, admin, async (request, response) => {
+router.post('/rejectCertificates/:eventID', apiKey, auth, admin, async (request, response) => {
     const rejectedBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -129,7 +127,7 @@ router.post('/rejectCertificates/:eventID', cors(origin), apiKey, auth, admin, a
     }
 })
 
-router.delete('/rollback/:eventID', cors(origin), apiKey, auth, admin, async (request, response) => {
+router.delete('/rollback/:eventID', apiKey, auth, admin, async (request, response) => {
     const rollbackBy = {
         userID: request.user._id,
         name: request.user.name,
@@ -162,7 +160,7 @@ router.delete('/rollback/:eventID', cors(origin), apiKey, auth, admin, async (re
     }
 })
 
-router.get('/pool', cors(origin), apiKey, auth, async (request, response) => {
+router.get('/pool', apiKey, auth, async (request, response) => {
     let pools = []
 
     try {
