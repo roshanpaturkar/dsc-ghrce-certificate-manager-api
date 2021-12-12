@@ -1,3 +1,5 @@
+const { header } = require("express/lib/request")
+
 var whitelist = ['https://dscghrcecertificates.web.app', '/\.example2\.com$/']
 
 var corsOptions = {
@@ -7,7 +9,8 @@ var corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'))
     }
-  }
+  },
+  header: '*'
 }
 
 module.exports = corsOptions
