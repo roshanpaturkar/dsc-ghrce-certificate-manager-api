@@ -15,6 +15,8 @@ const certificateTemplate = require('./routers/certificateTemplate')
 
 const sendEventData = require('./routers/extensions_b2b/sendEventData')
 
+const origin = require('./cors/origin')
+
 const app = express()
 const port = process.env.PORT
 
@@ -32,10 +34,15 @@ const port = process.env.PORT
 
 // app.use(cors(corsOptions))
 
-app.use(cors())
+// app.use(cors())
 
-app.get('/', apiKey, (request, response) => {
-    response.send('Welcome to the DSC GHRCE Certificate Manager!')
+app.get('/', cors(origin), apiKey, (request, response) => {
+    try {
+        response.send('Welcome to the DSC GHRCE Certificate Manager!')
+    } catch (error) {
+        console.log(error.Error)
+        response.status(500).send(error)
+    }
 })
 
 app.use(express.json())
