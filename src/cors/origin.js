@@ -10,7 +10,7 @@ var corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  header: 'Access-Control-Allow-Origin',
+  allowedHeaders: '*'
 }
 
 module.exports = corsOptions
