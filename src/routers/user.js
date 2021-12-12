@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 const multer = require('multer')
 const sharp = require('sharp')
 
@@ -214,7 +215,7 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
     }
 })
 
-router.get('/users/:id/avatar', async (request, response) => {
+router.get('/users/:id/avatar', cors(), async (request, response) => {
     try {
         const user = await User.findById(request.params.id)
 
