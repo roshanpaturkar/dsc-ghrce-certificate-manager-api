@@ -1,5 +1,6 @@
 const express = require('express')
 var cors = require('cors')
+const origin = require('./cors/origin')
 require('./db/mongoose')
 
 const apiKey = require('./middleware/apiKey')
@@ -14,8 +15,6 @@ const leadRouter = require('./routers/lead')
 const certificateTemplate = require('./routers/certificateTemplate')
 
 const sendEventData = require('./routers/extensions_b2b/sendEventData')
-
-const origin = require('./cors/origin')
 
 const app = express()
 const port = process.env.PORT
