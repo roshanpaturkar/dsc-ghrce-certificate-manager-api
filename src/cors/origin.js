@@ -1,5 +1,3 @@
-const { header } = require("express/lib/request")
-
 var whitelist = ['https://dscghrcecertificates.web.app', 'https://dscghrce-app-extensions.deta.dev']
 
 var corsOptions = {
