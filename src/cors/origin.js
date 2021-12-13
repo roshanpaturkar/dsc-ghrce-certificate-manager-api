@@ -1,6 +1,6 @@
 const { header } = require("express/lib/request")
 
-var whitelist = ['https://dscghrcecertificates.web.app', '/\.example2\.com$/']
+var whitelist = ['https://dscghrcecertificates.web.app']
 
 var corsOptions = {
   origin: function (origin, callback) {
