@@ -1,4 +1,4 @@
-var whitelist = ['https://dscghrcecertificates.web.app', 'https://dscghrce-app-extensions.deta.dev']
+var whitelist = ['https://dscghrcecertificates.web.app', 'https://verifymycertificates.web.app']
 
 var corsOptions = {
   origin: function (origin, callback) {
