@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const apiKey = async (request, response, next) => {
-  next(); // continue to next middleware
+  return next(); // continue to next middleware
   try {
     const key = request.header("API-Key");
 
