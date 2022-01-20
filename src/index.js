@@ -19,8 +19,13 @@ const sendEventData = require('./routers/extensions_b2b/sendEventData')
 const app = express()
 const port = process.env.PORT
 
-app.use(cors(origin))
-// app.use(cors())
+if (process.env.ENV != undefined) {
+    app.use(cors())
+    console.log("IN LOCAL!");
+} else {
+    app.use(cors(origin))
+    console.log("IN PROD!");
+}
 
 app.get('/', apiKey, (request, response) => {
     response.send('Welcome to the DSC GHRCE Certificate Manager!')
