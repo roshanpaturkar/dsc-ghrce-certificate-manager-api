@@ -21,10 +21,8 @@ const port = process.env.PORT
 
 if (process.env.ENV != undefined) {
     app.use(cors())
-    console.log("IN LOCAL!");
 } else {
     app.use(cors(origin))
-    console.log("IN PROD!");
 }
 
 app.get('/', apiKey, (request, response) => {
