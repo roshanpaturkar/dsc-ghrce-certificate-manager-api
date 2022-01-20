@@ -20,9 +20,9 @@ const app = express()
 const port = process.env.PORT
 
 if (process.env.ENV != undefined) {
-    app.use(cors())
+    app.use(cors())         //  Allow all origins while running in local
 } else {
-    app.use(cors(origin))
+    app.use(cors(origin))   //  Allow only configured origin wile running in prod
 }
 
 app.get('/', apiKey, (request, response) => {
