@@ -16,6 +16,9 @@ const certificateTemplate = require('./routers/certificateTemplate')
 
 const sendEventData = require('./routers/extensions_b2b/sendEventData')
 
+//  V2 API Routers imports
+const v2Pool = require('./routers/v2/pool')
+
 const app = express()
 const port = process.env.PORT
 
@@ -39,6 +42,9 @@ app.use(otpRouter)
 app.use(leadRouter)
 app.use(certificateTemplate)
 app.use(sendEventData)
+
+//  V2 Routers
+app.use(v2Pool)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
