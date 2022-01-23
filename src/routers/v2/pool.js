@@ -7,15 +7,11 @@ const Pool = require('../../models/pool')
 const router = new express.Router()
 
 router.get('/v2/pool', auth, async (request, response) => {
-    let pools = []
-
     const pageSize = request.query.pageSize? parseInt(request.query.pageSize) : 6
     const pageNumber = request.query.pageNumber? parseInt(request.query.pageNumber) : 1
 
     try {
         if (request.query.verified === 'true') {
-            // pools = await Pool.find({ verified: true }).sort( { "_id": -1 })
-
             const skips = pageSize * (pageNumber - 1)
             const total = await Pool.find({ verified: true }).countDocuments()
             const currentPageEvents = await Pool.find({ verified: true }).sort( { "_id": -1 }).skip(skips).limit(pageSize)
@@ -31,8 +27,6 @@ router.get('/v2/pool', auth, async (request, response) => {
                 data: currentPageEvents
             })
         } else if (request.query.verified === 'false') {
-            // pools = await Pool.find({ verified: false }).sort( { "_id": -1 })
-
             const skips = pageSize * (pageNumber - 1)
             const total = await Pool.find({ verified: false }).countDocuments()
             const currentPageEvents = await Pool.find({ verified: false }).sort( { "_id": -1 }).skip(skips).limit(pageSize)
