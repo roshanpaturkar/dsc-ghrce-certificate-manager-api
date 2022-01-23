@@ -5,7 +5,7 @@ require('./db/mongoose')
 
 const apiKey = require('./middleware/apiKey')
 
-//  Legacy  (V1) API Routers imports
+//  Legacy (V1) API Routers imports
 const userRouter = require('./routers/user')
 const poolRouter = require('./routers/pool')
 const certificatesRouter = require('./routers/certificate')
