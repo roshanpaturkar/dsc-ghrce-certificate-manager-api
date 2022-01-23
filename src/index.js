@@ -5,6 +5,7 @@ require('./db/mongoose')
 
 const apiKey = require('./middleware/apiKey')
 
+//  Legacy  (V!) API Routers imports
 const userRouter = require('./routers/user')
 const poolRouter = require('./routers/pool')
 const certificatesRouter = require('./routers/certificate')
@@ -14,14 +15,16 @@ const otpRouter = require('./routers/otp')
 const leadRouter = require('./routers/lead')
 const certificateTemplate = require('./routers/certificateTemplate')
 
-const sendEventData = require('./routers/extensions_b2b/sendEventData')
-
 //  V2 API Routers imports
 const v2Pool = require('./routers/v2/pool')
+
+//  Legacy (V1) B2B imports
+const sendEventData = require('./routers/extensions_b2b/sendEventData')
 
 const app = express()
 const port = process.env.PORT
 
+//  CORS origins configuration
 if (process.env.ENV != undefined) {
     app.use(cors())
 } else {
@@ -33,6 +36,8 @@ app.get('/', apiKey, (request, response) => {
 })
 
 app.use(express.json())
+
+//  Legacy (V1) Routers
 app.use(userRouter)
 app.use(poolRouter)
 app.use(certificatesRouter)
