@@ -1,5 +1,4 @@
 const express = require('express')
-const _ = require('lodash')
 
 const auth = require('../../middleware/auth')
 const Pool = require('../../models/pool')
@@ -10,6 +9,10 @@ router.get('/v2/pool', auth, async (request, response) => {
     const pageSize = request.query.pageSize? parseInt(request.query.pageSize) : 6
     const pageNumber = request.query.pageNumber? parseInt(request.query.pageNumber) : 1
 
+    if (pageSize <= 0 || pageNumber <=0) {
+        return response.status(400).send({ error: 'pageSize and pageNumber must be greater than 0.' })
+    }
+
     try {
         if (request.query.verified === 'true') {
             const skips = pageSize * (pageNumber - 1)
@@ -19,11 +22,11 @@ router.get('/v2/pool', auth, async (request, response) => {
             const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
             
             response.send({
-                pageSize: pageSize,
-                pageNumber: pageNumber,
+                currentPageSize: pageSize,
+                currentPageNumber: pageNumber,
                 totalPages: totalPages,
-                total: total,
-                dataCount: currentPageEvents.length,
+                totalDataCount: total,
+                currentPageDataCount: currentPageEvents.length,
                 data: currentPageEvents
             })
         } else if (request.query.verified === 'false') {
@@ -34,11 +37,11 @@ router.get('/v2/pool', auth, async (request, response) => {
             const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
             
             response.send({
-                pageSize: pageSize,
-                pageNumber: pageNumber,
+                currentPageSize: pageSize,
+                currentPageNumber: pageNumber,
                 totalPages: totalPages,
-                total: total,
-                dataCount: currentPageEvents.length,
+                totalDataCount: total,
+                currentPageDataCount: currentPageEvents.length,
                 data: currentPageEvents
             })
         } else {
@@ -49,11 +52,11 @@ router.get('/v2/pool', auth, async (request, response) => {
             const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
             
             response.send({
-                pageSize: pageSize,
-                pageNumber: pageNumber,
+                currentPageSize: pageSize,
+                currentPageNumber: pageNumber,
                 totalPages: totalPages,
-                total: total,
-                dataCount: currentPageEvents.length,
+                totalDataCount: total,
+                currentPageDataCount: currentPageEvents.length,
                 data: currentPageEvents
             })
         }
