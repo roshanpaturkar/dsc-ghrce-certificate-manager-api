@@ -1,7 +1,7 @@
 const express = require('express')
 
 const auth = require('../../middleware/auth')
-const Pool = require('../../models/pool')
+const getPoolResponse = require('../../support/routers/v2/pool')
 
 const router = new express.Router()
 
@@ -15,50 +15,16 @@ router.get('/v2/pool', auth, async (request, response) => {
 
     try {
         if (request.query.verified === 'true') {
-            const skips = pageSize * (pageNumber - 1)
-            const total = await Pool.find({ verified: true }).countDocuments()
-            const currentPageEvents = await Pool.find({ verified: true }).sort( { "_id": -1 }).skip(skips).limit(pageSize)
-            const pageCount = total/pageSize
-            const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
-            
-            response.send({
-                currentPageSize: pageSize,
-                currentPageNumber: pageNumber,
-                totalPages: totalPages,
-                totalDataCount: total,
-                currentPageDataCount: currentPageEvents.length,
-                data: currentPageEvents
-            })
+            const query = { verified: true }
+            const responseData = await getPoolResponse(pageSize, pageNumber, query)
+            response.send(responseData)
         } else if (request.query.verified === 'false') {
-            const skips = pageSize * (pageNumber - 1)
-            const total = await Pool.find({ verified: false }).countDocuments()
-            const currentPageEvents = await Pool.find({ verified: false }).sort( { "_id": -1 }).skip(skips).limit(pageSize)
-            const pageCount = total/pageSize
-            const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
-            
-            response.send({
-                currentPageSize: pageSize,
-                currentPageNumber: pageNumber,
-                totalPages: totalPages,
-                totalDataCount: total,
-                currentPageDataCount: currentPageEvents.length,
-                data: currentPageEvents
-            })
+            const query = { verified: false }
+            const responseData = await getPoolResponse(pageSize, pageNumber, query)
+            response.send(responseData)
         } else {
-            const skips = pageSize * (pageNumber - 1)
-            const total = await Pool.find().countDocuments()
-            const currentPageEvents = await Pool.find().sort( { "_id": -1 }).skip(skips).limit(pageSize)
-            const pageCount = total/pageSize
-            const totalPages = pageCount.toString().split('.')[1]?parseInt(pageCount.toString().split('.')[0])+1: parseInt(pageCount.toString().split('.')[0]);
-            
-            response.send({
-                currentPageSize: pageSize,
-                currentPageNumber: pageNumber,
-                totalPages: totalPages,
-                totalDataCount: total,
-                currentPageDataCount: currentPageEvents.length,
-                data: currentPageEvents
-            })
+            const responseData = await getPoolResponse(pageSize, pageNumber)
+            response.send(responseData)
         }
     } catch (error) {
         console.log(error);
