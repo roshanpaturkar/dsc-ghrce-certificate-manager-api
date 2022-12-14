@@ -68,8 +68,11 @@ router.get('/certificate/templateImage/:id', async (request, response) => {
         if (!certificateTemplateImage) {
             return response.status(404).send({ error: 'Certificate Template Image not found!'})
         }
-        response.set('Content-Type', 'image/png')
-        response.send(certificateTemplateImage.certificateTemplateImage)
+        response.send({
+            encoding: 'base64',
+            contentType: 'image/png',
+            image: certificateTemplateImage.certificateTemplateImage
+        })
     } catch (error) {
         console.log(error);
         response.status(500).send({ error: 'Internal server error!'})

@@ -206,8 +206,11 @@ router.get('/users/me/avatar', apiKey, auth, async (request, response) => {
         if (!user || !user.avatar) {
             throw new Error()
         }
-        response.set('Content-Type', 'image/png')
-        response.send(user.avatar)
+        response.send({
+            encoding: 'base64',
+            contentType: 'image/png',
+            image: user.avatar
+        })
     } catch (error) {
         console.log(error);
         response.status(404).send()
@@ -221,8 +224,11 @@ router.get('/users/:id/avatar', async (request, response) => {
         if (!user || !user.avatar) {
             throw new Error()
         }
-        response.set('Content-Type', 'image/png')
-        response.send(user.avatar)
+        response.send({
+            encoding: 'base64',
+            contentType: 'image/png',
+            image: user.avatar
+        })
     } catch (error) {
         console.log(error);
         response.status(404).send()
